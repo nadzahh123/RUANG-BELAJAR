@@ -12,7 +12,7 @@
 .wv-chip{flex:none;border:1.5px solid var(--line);background:var(--paper);border-radius:999px;padding:6px 12px;font:inherit;font-size:.84rem;font-weight:600;color:var(--ink);cursor:pointer;white-space:nowrap}
 .wv-chip.on{background:var(--ink);color:#fff;border-color:var(--ink)}
 .wv-tools input{flex:1 1 220px}
-.wv-grid{display:grid;gap:14px;grid-template-columns:repeat(auto-fill,minmax(260px,1fr))}
+.wv-grid{display:grid;gap:14px;align-items:start;grid-template-columns:repeat(auto-fill,minmax(260px,1fr))}
 .wv-card{background:var(--paper);border:1.5px solid var(--line);border-radius:18px;overflow:hidden;display:flex;flex-direction:column;transition:transform .15s,box-shadow .15s}
 .wv-card:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(36,27,75,.08)}
 .wv-card.done{opacity:.62}
@@ -31,6 +31,10 @@
 .wv-title{font-weight:700;color:var(--ink);text-decoration:none;line-height:1.3}
 .wv-title:hover{color:var(--cc)}
 .wv-note{margin:0;font-size:.88rem;color:#4A3F73;flex:1}
+.wv-les{background:var(--cs);border-radius:12px;padding:8px 10px;font-size:.86rem}
+.wv-les summary{cursor:pointer;font-weight:700;color:var(--cc);list-style-position:inside}
+.wv-les ol{margin:8px 0 4px;padding-left:20px;display:grid;gap:6px;color:#3A3060;line-height:1.45}
+.wv-les blockquote{margin:8px 0 2px;padding-left:10px;border-left:3px solid var(--cc);font-style:italic;color:#4A3F73}
 .wv-foot{justify-content:space-between;margin-top:4px}
 .wv-chk{display:inline-flex;gap:6px;align-items:center;font-size:.84rem;font-weight:600;cursor:pointer}
 .wv-chk input{width:18px;height:18px;accent-color:#9B5CF6;padding:0}
@@ -3679,6 +3683,77 @@ const WV_LIST = [["perempuan","iCvmsMzlF7o","The Power of Vulnerability | Brené
 /* ============================================================
    CURIOSITY CORNER · video gabut tanpa jadwal (semua link dicek asli)
    ============================================================ */
+/* Lessons per video (diringkas dari transkrip asli TED) */
+const WV_LESSONS = {
+"iCvmsMzlF7o":{l:[
+ "Dari 6 tahun riset (ribuan cerita), cuma ada SATU pembeda antara orang yang merasa dicintai & punya tempat dengan yang terus berjuang: mereka percaya dirinya memang layak dicintai.",
+ "Orang yang 'wholehearted' punya 3 hal: berani tidak sempurna, berbelas kasih ke diri sendiri dulu baru ke orang lain, dan rela melepas 'siapa yang seharusnya aku' demi jadi diri sendiri.",
+ "Shame (rasa malu) = takut tidak layak terhubung. Makin tidak dibicarakan, makin besar. Kerentanan memang sumber rasa malu & takut, tapi juga tempat lahirnya cinta, kreativitas, rasa memiliki, dan sukacita.",
+ "Kita tidak bisa mematikan emosi secara selektif: kalau rasa sakit & takut dibius (makan, belanja, scroll), rasa bahagia & syukur ikut mati.",
+ "Tugas orang tua bukan menjaga anak tetap 'sempurna', tapi bilang: kamu tidak sempurna, kamu akan berjuang, tapi kamu layak dicintai."],
+ q:"Stories are just data with a soul."},
+"18uDutylDa4":{l:[
+ "Data: dari 190 kepala negara cuma 9 perempuan; di jabatan puncak perusahaan cuma 15–16% dan tidak naik sejak 2002.",
+ "Pesan 1 · Sit at the table: perempuan cenderung meremehkan kemampuannya sendiri. Cuma 7% perempuan fresh graduate yang menegosiasi gaji pertamanya (laki-laki 57%).",
+ "Sukses dan disukai berkorelasi positif untuk laki-laki, tapi negatif untuk perempuan (studi 'Heidi vs Howard': kasus sama, beda nama, Howard lebih disukai).",
+ "Pesan 2 · Jadikan pasangan benar-benar partner: kalau sama-sama kerja, perempuan masih mengerjakan 2x pekerjaan rumah dan 3x pengasuhan anak.",
+ "Pesan 3 · Don't leave before you leave: jangan mulai 'mundur pelan-pelan' dari peluang karier bertahun-tahun sebelum benar-benar perlu cuti."],
+ q:"Keep your foot on the gas pedal, until the very day you need to leave."},
+"hg3umXU_qWc":{l:[
+ "Kata 'feminis' sering dianggap negatif (benci laki-laki, tidak bisa dapat suami, tidak sesuai budaya), padahal intinya sederhana: mengakui ada masalah gender hari ini dan kita harus memperbaikinya.",
+ "Cerita ketua kelas: ia dapat nilai tertinggi, tapi gurunya bilang ketua kelas harus laki-laki. Ketidakadilan sering dianggap 'sudah jelas' sehingga tidak terlihat.",
+ "Cerita tukang parkir: ia yang memberi tip, tapi yang diberi terima kasih temannya yang laki-laki. Hal kecil seperti ini yang paling menyakitkan.",
+ "Dulu kekuatan fisik menentukan siapa memimpin. Sekarang yang menentukan adalah kreativitas & kecerdasan, dan itu tidak ada hormonnya.",
+ "Anak perempuan diajari 'boleh ambisius, tapi jangan terlalu'. Anak laki-laki juga dirugikan karena dipaksa masuk kotak maskulinitas yang sempit."],
+ q:"The higher you go, the fewer women there are. (mengutip Wangari Maathai)"},
+"D9Ihs241zeg":{l:[
+ "Waktu kecil di Nigeria ia menulis cerita tentang tokoh berkulit putih yang main salju dan makan apel, karena hanya itu yang ia baca. Kita (terutama anak-anak) sangat mudah dibentuk oleh cerita.",
+ "Fide, anak pembantu yang 'sangat miskin': ia kaget keluarga Fide bisa membuat keranjang yang indah. Kemiskinan sudah jadi satu-satunya cerita yang ia tahu tentang mereka.",
+ "Teman sekamarnya di AS kasihan padanya sebelum kenal, bahkan heran ia bisa bahasa Inggris. Ia pun mengaku pernah terjebak 'single story' tentang orang Meksiko.",
+ "Cerita terkait kekuasaan: siapa yang bercerita, kapan, dan dari mana cerita dimulai menentukan bagaimana sebuah kelompok dipandang.",
+ "Stereotip bukan selalu salah, tapi selalu tidak lengkap. Satu cerita membuat satu cerita jadi satu-satunya cerita."],
+ q:"The problem with stereotypes is not that they are untrue, but that they are incomplete."},
+"fC9da6eqaqg":{l:[
+ "Anak perempuan dibesarkan untuk sempurna, anak laki-laki untuk berani. Hasilnya 'bravery deficit' di dunia kerja.",
+ "Riset Carol Dweck: anak perempuan yang pintar justru cepat menyerah saat tugas terlalu sulit (makin tinggi IQ, makin cepat menyerah), sedangkan anak laki-laki makin semangat.",
+ "Laki-laki melamar kerja kalau memenuhi 60% syarat, perempuan baru melamar kalau 100%.",
+ "Di kelas coding, siswi menghapus kode yang hampir benar supaya layar kosong ('perfection or bust'). Mahasiswa bilang 'ada yang salah dengan kodeku', mahasiswi bilang 'ada yang salah dengan aku'.",
+ "Solusinya: biasakan nyaman dengan ketidaksempurnaan, dan bangun 'sisterhood' supaya perempuan tahu mereka tidak sendirian."],
+ q:"Tell every young woman you know to be comfortable with imperfection."},
+"JJZ8z_nTCZQ":{l:[
+ "Hampir 2/3 penderita Alzheimer adalah perempuan. Menopause berperan penting dalam penuaan otak perempuan.",
+ "Gejala menopause (hot flashes, insomnia, lupa, cemas) sebenarnya gejala neurologis: hipotalamus (suhu), batang otak (tidur), amigdala & hipokampus (emosi & memori).",
+ "Estrogen membantu neuron membakar glukosa. Pada scan PET seorang perempuan, energi otak turun ±30% dalam 8 tahun setelah menopause.",
+ "Kabar baik: kemampuan kognitif perempuan sebelum dan sesudah menopause tetap setara dengan laki-laki. 'Capek, tapi tetap tajam.' Plak amiloid hanya faktor risiko, bukan diagnosis.",
+ "Terapi hormon membantu gejala, tapi belum direkomendasikan untuk mencegah demensia. Yang bisa dilakukan: diet Mediterania (fitoestrogen: biji rami, wijen, kacang-kacangan), tidur, olahraga, dan kurangi stres (kortisol naik → estrogen turun)."],
+ q:"Brain health is women's health."},
+"sJCBM9ajA5s":{l:[
+ "80% obat yang ditarik dari pasar ditarik karena efek samping pada perempuan, karena sel, hewan, dan uji klinis selama ini mayoritas laki-laki.",
+ "Contoh Ambien (obat tidur): setelah 20 tahun beredar, FDA baru menyuruh dosis perempuan dipotong setengah karena perempuan memetabolismenya lebih lambat (risiko kecelakaan mobil pagi hari).",
+ "Serangan jantung pada perempuan sering muncul sebagai 'nggak enak badan, sesak, capek', lalu dicap 'atipikal'. Pembuluh koronernya lebih kecil, dan tes diagnostiknya dikembangkan pada laki-laki.",
+ "Aspirin untuk mencegah serangan jantung pada laki-laki sehat justru bisa merugikan perempuan sehat.",
+ "'Every cell has a sex': kromosom seks aktif seumur hidup di semua sel. Women are not just men with boobs and tubes. Tanyakan ke doktermu apakah terapinya spesifik untuk jenis kelaminmu."],
+ q:"Children are not just little adults, and women are not just men with boobs and tubes."},
+"L-q-tSHo9Ho":{l:[
+ "'Pusat reward' otak sebenarnya tiga sistem terpisah: liking (suka), wanting (ingin), dan learning (belajar/asosiasi seperti anjing Pavlov).",
+ "Arousal nonconcordance: respons fisik genital hanya 10–50% sejalan dengan rasa ingin dan suka yang sebenarnya.",
+ "Respons tubuh hanya berarti stimulusnya 'berkaitan dengan seks', bukan tanda ia mau, suka, apalagi setuju. Air liur keluar saat menggigit apel busuk bukan berarti kamu suka apel busuk.",
+ "Bilang 'tapi tubuhmu bilang mau' padahal orangnya bilang tidak = gaslighting. Ini juga penting di pengadilan kasus kekerasan seksual.",
+ "Pesan untuk calon dokter: yang menentukan keinginan seseorang adalah kata-katanya, bukan respons tubuhnya. 'My genitals do not tell you what I want or like. I do.'"],
+ q:"Genital response means it's a sex-related stimulus. It doesn't mean it was wanted or liked."},
+"ysRvYxznrq4":{l:[
+ "Tabu menstruasi bukan soal darah. Sejak dulu ada mitos 'menotoksin' (perempuan haid bisa melayukan bunga). Rasa malu membuat perempuan merasa sendirian, misalnya diare saat haid ternyata dialami 28% perempuan.",
+ "Fisiologi: estrogen membangun lapisan endometrium seperti batu bata, progesteron jadi 'semen'-nya. Kalau tidak hamil, lapisan luruh. Hanya manusia, sebagian primata, kelelawar, elephant shrew, dan spiny mouse yang menstruasi.",
+ "Darah haid normalnya 30–90 mL. Lapisan rahim tebal karena 'perlombaan senjata' evolusi antara rahim dan embrio yang makin invasif.",
+ "Prostaglandin membuat rahim berkontraksi menjepit pembuluh darah. Tekanannya bisa 120 mmHg, setara kala II persalinan. Sebut nyerinya 'typical', bukan 'normal', supaya tidak diremehkan.",
+ "Terapi: NSAID meredakan nyeri pada 80% perempuan dan mengurangi darah 30–40%; kontrasepsi hormonal; TENS. Kalau gagal, pikirkan endometriosis."],
+ q:"It shouldn't be an act of feminism to know how your body works."},
+"QjGCA1ysrC0":{n:"Transkrip video ini tidak tersedia, jadi poin di bawah adalah konsep inti yang dibahas topiknya, bukan kutipan videonya.",l:[
+ "Setiap siklus, endometrium menebal untuk menyiapkan kemungkinan kehamilan.",
+ "Kalau sel telur tidak dibuahi, kadar progesteron turun dan lapisan itu luruh bersama darah. Itulah menstruasi.",
+ "Siklusnya diatur hormon (FSH, LH, estrogen, progesteron), rata-rata sekitar 28 hari tapi wajar kalau tiap orang berbeda.",
+ "Cocok ditonton bareng video Jen Gunter di atas sebagai versi singkat berbahasa Indonesia."]}
+};
 const WV_NAME = "Curiosity Corner";
 const WV_CATS = {
   perempuan:{nm:"Perempuan & tubuhnya", e:"🌸", c:"#FF4F8B", s:"#FFE3EE"},
@@ -3704,6 +3779,10 @@ function wvFiltered(){
   const f = ui.wv, X = WV(), q = f.q.trim().toLowerCase();
   return WV_LIST.filter(v => (f.cat === "all" || v[0] === f.cat) && (f.lang === "all" || v[5] === f.lang) && (!f.hide || !X.done[v[1]]) && (!f.fav || X.fav[v[1]]) && (!q || (v[2]+" "+v[3]+" "+v[6]).toLowerCase().includes(q)));
 }
+function wvLessons(id, open){
+  const L = WV_LESSONS[id]; if (!L) return '';
+  return '<details class="wv-les"'+(open?' open':'')+'><summary>📝 Lessons dari video ini</summary>'+(L.n?'<p class="small muted">'+esc(L.n)+'</p>':'')+'<ol>'+L.l.map(x => '<li>'+esc(x)+'</li>').join('')+'</ol>'+(L.q?'<blockquote>“'+esc(L.q)+'”</blockquote>':'')+'</details>';
+}
 function wvCard(v, big){
   const X = WV(), C = WV_CATS[v[0]], done = !!X.done[v[1]], fav = !!X.fav[v[1]], url = "https://www.youtube.com/watch?v="+v[1];
   return '<article class="wv-card'+(done?" done":"")+(big?" big":"")+'" style="--cc:'+C.c+';--cs:'+C.s+'">'+
@@ -3711,7 +3790,7 @@ function wvCard(v, big){
     '<div class="wv-body"><div class="row wv-tags"><span class="wv-cat">'+C.e+' '+esc(C.nm)+'</span><span class="wv-lang">'+(v[5]==="id"?"Indonesia":"English")+'</span></div>'+
     '<a class="wv-title" href="'+url+'" target="_blank" rel="noopener" data-wvopen="'+v[1]+'">'+esc(v[2])+'</a>'+
     '<span class="small muted">'+esc(v[3])+'</span>'+
-    '<p class="wv-note">'+esc(v[6])+'</p>'+
+    '<p class="wv-note">'+esc(v[6])+'</p>'+wvLessons(v[1], big)+
     '<div class="row wv-foot"><label class="wv-chk"><input type="checkbox" data-wvdone="'+v[1]+'"'+(done?" checked":"")+'> Sudah ditonton</label><button class="wv-fav'+(fav?" on":"")+'" data-act="wvfav" data-id="'+v[1]+'" aria-label="Favorit" title="Simpan ke favorit">'+(fav?"♥":"♡")+'</button></div></div></article>';
 }
 function vWawasan(){
