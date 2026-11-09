@@ -997,9 +997,10 @@ function vLite(){
   const sums = allSummaries().filter(s => s.lecture === lid), qz = allQuizzes().filter(q => q.lecture === lid);
   let sumBtn = sums.length ? '<a class="btn solid" href="#rangkuman" data-act="opensum" data-id="'+sums[0].id+'">📖 Buka rangkuman</a>' : '<a class="btn solid" href="#rangkuman" data-act="wsclose">📖 Buka tab Rangkuman</a>';
   const pdfN = 'Rangkuman-Repro-KUL-'+l.no+'.pdf', pdf = l.block === "repro" && downloadsCard().includes('files/'+pdfN) ? '<a class="btn tiny dl" data-name="'+pdfN+'" href="files/'+pdfN+'" target="_blank" rel="noopener" download>⬇ PDF rangkuman</a>' : '';
+  const bkN = 'Buku-Belajar-Repro-KUL-'+l.no+'.pdf', bk = l.block === "repro" && downloadsCard().includes('files/'+bkN) ? '<a class="btn tiny dl" data-name="'+bkN+'" href="files/'+bkN+'" target="_blank" rel="noopener" download>📘 Buku belajar</a>' : '';
   if (!sums.length && pdf) sumBtn = pdf.replace('btn tiny dl', 'btn solid dl');
   let body = '';
-  if (k === 1) body = '<div class="row">'+sumBtn+(l.ppt?'<a class="btn tiny" href="'+esc(l.ppt)+'" target="_blank" rel="noopener">PPT ↗</a>':'')+'</div>'+
+  if (k === 1) body = '<div class="row">'+sumBtn+bk+(l.ppt?'<a class="btn tiny" href="'+esc(l.ppt)+'" target="_blank" rel="noopener">PPT ↗</a>':'')+'</div>'+
     '<details class="card" style="padding:10px 12px"><summary style="cursor:pointer;font-weight:700">Bingung? Prompt GPT siap salin</summary><pre class="small" style="white-space:pre-wrap;margin:8px 0;background:var(--soft);padding:10px;border-radius:8px;max-height:200px;overflow:auto">'+esc(promptFor(l)+"\n\nMateri: "+l.title+". Bagian yang aku bingung: ...")+'</pre></details>';
   else if (k === 2) body = (qz.length ? '<div class="grid2" style="gap:8px">'+qz.map(quizCard).join("")+'</div>' : '<div class="empty small">Latsol KUL ini masih disiapin. Tandai selesai aja dulu, nanti muncul lagi.</div>');
   else body = '<div class="row">'+sumBtn+(qz.length?'<a class="btn" href="#latsol" data-act="openquiz" data-id="'+qz[0].id+'">✏️ Latsol ulang</a>':'')+'</div>';
@@ -1744,6 +1745,9 @@ function downloadsCard(){
     ["Rangkuman KUL 21", "Infeksi Genitalia", "Rangkuman-Repro-KUL-21", "0,9 MB", ""],
     ["Rangkuman KUL 22", "Kelainan Genitalia", "Rangkuman-Repro-KUL-22", "1,7 MB", ""],
     ["Rangkuman Panduan Resmi", "Modul blok, Buku KIA 2024, WHO ANC 2016 + peta nomor KUL", "Rangkuman-Repro-Panduan-Resmi", "0,7 MB", ""]
+  ]) + dlCard("Buku Belajar dari Nol (PDF)", "Versi buku: dijelaskan dari dasar, semua istilah diberi arti, ada analogi, jebakan, dan soal + kunci di bab akhir. Rangkuman di atas tetap ada.", [
+    ["Buku Belajar KUL 1", "ANC dan Infeksi pada Kehamilan (169 halaman)", "Buku-Belajar-Repro-KUL-1", "6,1 MB", ""],
+    ["Buku Belajar KUL 2", "Perdarahan Kehamilan Muda (116 halaman)", "Buku-Belajar-Repro-KUL-2", "3,5 MB", ""]
   ]) + dlCard("Buku panduan resmi (PDF asli)", "Sumber resmi untuk ANC dan KIA. Buku KIA dibagi 2 file supaya ringan diunduh.", [
     ["Buku KIA 2024 (bagian 1)", "Kemenkes RI, Buku Kesehatan Ibu dan Anak", "Buku-KIA-2024-bag1", "14,1 MB", ""],
     ["Buku KIA 2024 (bagian 2)", "Kemenkes RI, Buku Kesehatan Ibu dan Anak", "Buku-KIA-2024-bag2", "8,4 MB", ""],
