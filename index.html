@@ -1,4 +1,41 @@
-<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}/* Curiosity Corner (video gabut) */
+.wv-hero{border-radius:24px;padding:26px 22px;background:linear-gradient(135deg,#FFE3EE 0%,#EFE5FF 48%,#E3F1FF 100%);border:1.5px solid #F1E3FB;margin-bottom:16px}
+.wv-h1{font-size:clamp(2rem,6vw,3rem);line-height:1;margin:0;font-weight:800;letter-spacing:-.02em;background:linear-gradient(90deg,#E5487A,#9B5CF6 60%,#5B6CFF);-webkit-background-clip:text;background-clip:text;color:transparent}
+.wv-h1 span{font-size:.6em;vertical-align:.3em}
+.wv-sub{margin:0;max-width:640px;color:#4A3F73}
+.wv-bar{height:8px;border-radius:99px;background:rgba(255,255,255,.75);overflow:hidden;max-width:420px}
+.wv-bar i{display:block;height:100%;background:linear-gradient(90deg,#FF4F8B,#9B5CF6);border-radius:99px}
+.wv-dice{background:linear-gradient(90deg,#FF4F8B,#9B5CF6);border-color:transparent}
+.wv-pick{border-radius:20px;padding:14px;margin-bottom:16px;background:var(--paper);border:1.5px dashed #D9C3F7;display:grid;gap:12px}
+.wv-filters{display:grid;gap:10px;margin-bottom:8px}
+.wv-chips{display:flex;gap:8px;flex-wrap:wrap}
+.wv-chip{flex:none;border:1.5px solid var(--line);background:var(--paper);border-radius:999px;padding:6px 12px;font:inherit;font-size:.84rem;font-weight:600;color:var(--ink);cursor:pointer;white-space:nowrap}
+.wv-chip.on{background:var(--ink);color:#fff;border-color:var(--ink)}
+.wv-tools input{flex:1 1 220px}
+.wv-grid{display:grid;gap:14px;grid-template-columns:repeat(auto-fill,minmax(260px,1fr))}
+.wv-card{background:var(--paper);border:1.5px solid var(--line);border-radius:18px;overflow:hidden;display:flex;flex-direction:column;transition:transform .15s,box-shadow .15s}
+.wv-card:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(36,27,75,.08)}
+.wv-card.done{opacity:.62}
+.wv-card.big{flex-direction:row;flex-wrap:wrap}
+.wv-card.big .wv-thumb{flex:1 1 280px}
+.wv-card.big .wv-body{flex:1 1 260px}
+.wv-thumb{position:relative;display:block;aspect-ratio:16/9;background:linear-gradient(135deg,var(--cs),#fff);overflow:hidden}
+.wv-thumb img{width:100%;height:100%;object-fit:cover;display:block}
+.wv-len{position:absolute;right:8px;bottom:8px;background:rgba(20,14,40,.82);color:#fff;font-size:.74rem;font-weight:700;border-radius:6px;padding:2px 6px}
+.wv-play{position:absolute;inset:0;margin:auto;width:46px;height:46px;border-radius:50%;background:rgba(255,255,255,.92);color:var(--cc);display:grid;place-items:center;font-size:1.1rem;opacity:0;transition:opacity .15s}
+.wv-thumb:hover .wv-play{opacity:1}
+.wv-body{padding:12px 14px 14px;display:flex;flex-direction:column;gap:6px;flex:1}
+.wv-tags{gap:6px}
+.wv-cat{font-size:.72rem;font-weight:700;color:var(--cc);background:var(--cs);border-radius:999px;padding:3px 8px}
+.wv-lang{font-size:.72rem;font-weight:600;color:var(--muted);border:1px solid var(--line);border-radius:999px;padding:2px 8px}
+.wv-title{font-weight:700;color:var(--ink);text-decoration:none;line-height:1.3}
+.wv-title:hover{color:var(--cc)}
+.wv-note{margin:0;font-size:.88rem;color:#4A3F73;flex:1}
+.wv-foot{justify-content:space-between;margin-top:4px}
+.wv-chk{display:inline-flex;gap:6px;align-items:center;font-size:.84rem;font-weight:600;cursor:pointer}
+.wv-chk input{width:18px;height:18px;accent-color:#9B5CF6;padding:0}
+.wv-fav{border:none;background:none;font-size:1.3rem;line-height:1;color:#E5487A;cursor:pointer;padding:2px 4px}
+</style></head><body>
 <title>Ruang Belajar Nadia</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -1116,7 +1153,7 @@ function bladderSVG(stretched){
 /* ============================================================
    RENDER
    ============================================================ */
-const VIEWS = ["beranda","kuliah","mikir","dasar","rangkuman","latsol","nonton","progres","pustaka","english"];
+const VIEWS = ["beranda","kuliah","mikir","dasar","rangkuman","latsol","nonton","progres","pustaka","english","wawasan"];
 let view = "beranda";
 let ui = {kOn:{}, kFocus:"fascia", nFocus:"pct", dasarTab:"atlas", sumId:null, quizId:null, caseId:"c1", caseStage:{}, caseSel:{}, bladder:false, speaking:false, labels:true};
 
@@ -1124,18 +1161,18 @@ function paintTop(){
   const b = block(); const t = todayISO();
   const dl = b.uab ? diffDays(t, b.uab) : null;
   $("#topRight").innerHTML =
-    '<select id="blockSel" aria-label="Pilih blok">'+S.blocks.map(x => '<option value="'+x.id+'"'+(view!=="english"&&x.id===S.activeBlock?" selected":"")+'>Blok '+esc(x.name)+'</option>').join("")+'<option value="__english"'+(view==="english"?" selected":"")+'>English · IELTS ✈</option></select>'+
-    (dl!=null && view!=="english" ? '<span class="chip pop mono">UAB '+(dl>0?"H-"+dl:dl===0?"HARI INI":"lewat")+'</span>' : '')+
+    '<select id="blockSel" aria-label="Pilih blok">'+S.blocks.map(x => '<option value="'+x.id+'"'+(view!=="english"&&view!=="wawasan"&&x.id===S.activeBlock?" selected":"")+'>Blok '+esc(x.name)+'</option>').join("")+'<option value="__english"'+(view==="english"?" selected":"")+'>English · IELTS ✈</option><option value="__wawasan"'+(view==="wawasan"?" selected":"")+'>Curiosity Corner ✦</option></select>'+
+    (dl!=null && view!=="english" && view!=="wawasan" ? '<span class="chip pop mono">UAB '+(dl>0?"H-"+dl:dl===0?"HARI INI":"lewat")+'</span>' : '')+
     '<span class="chip small sync-chip" title="Status penyimpanan">'+esc(syncLabel)+'</span>';
 }
 
 function render(){
   paintTop();
-  $("#tabs").style.display = view === "english" ? "none" : "";
+  $("#tabs").style.display = (view === "english" || view === "wawasan") ? "none" : "";
   document.querySelectorAll("#tabs a").forEach(a => a.setAttribute("aria-current", a.getAttribute("href")==="#"+view ? "page" : "false"));
-  const fn = {beranda:vBeranda, kuliah:vKuliah, mikir:vMikir, dasar:vDasar, rangkuman:vRangkuman, latsol:vLatsol, nonton:vNonton, progres:vProgres, pustaka:vPustaka, english:vEnglish}[view];
+  const fn = {beranda:vBeranda, kuliah:vKuliah, mikir:vMikir, dasar:vDasar, rangkuman:vRangkuman, latsol:vLatsol, nonton:vNonton, progres:vProgres, pustaka:vPustaka, english:vEnglish, wawasan:vWawasan}[view];
   $("#app").innerHTML = '<section class="view" id="v-'+view+'">'+fn()+'</section>';
-  engBgPaint();
+  engBgPaint(); wvThumbs();
   const host = $("#wsHost"); const keepScroll = host.querySelector(".ws-body") ? host.querySelector(".ws-body").scrollTop : 0;
   host.innerHTML = ui.ws ? vWS() : ""; document.body.style.overflow = ui.ws ? "hidden" : "";
   if (ui.ws && keepScroll) host.querySelector(".ws-body").scrollTop = keepScroll;
@@ -1972,7 +2009,7 @@ document.addEventListener("change", e => {
   if (e.target.dataset && e.target.dataset.wschk != null && ui.ws) { const d = wsData(ui.ws.lid, ui.ws.n); d.chk[e.target.dataset.wschk] = e.target.checked; save(); render(); return; }
   const sl = e.target.dataset && e.target.dataset.slide;
   if (sl) { const lid = e.target.dataset.l, n = e.target.dataset.n; S.slides = S.slides||{}; S.slides[lid] = S.slides[lid]||{}; S.slides[lid][n] = Object.assign({}, S.slides[lid][n], {[sl]: Math.max(0, parseInt(e.target.value,10)||0)}); const b = S.slides[lid][n]; save(); if (sl === "at" && b.total && b.at >= b.total && !stepOf(lid, +n).done) markStep(lid, +n, true); else toast("Penanda slide disimpan"); render(); return; }
-  if (e.target.id === "blockSel") { const v = e.target.value; if (v === "__english") { ui.engOpen = null; ui.engRev = null; engStop(); go("english"); } else { S.activeBlock = v; save(); if (view === "english") go("beranda"); else render(); } }
+  if (e.target.id === "blockSel") { const v = e.target.value; if (v === "__english") { ui.engOpen = null; ui.engRev = null; engStop(); go("english"); } else if (v === "__wawasan") { engStop(); go("wawasan"); } else { S.activeBlock = v; save(); if (view === "english" || view === "wawasan") go("beranda"); else render(); } }
   if (e.target.id === "todayTime" && e.target.value) { S.times[todayISO()] = e.target.value; S.ack[todayISO()] = false; save(); render(); toast("Pengingat jam "+e.target.value); }
 });
 function selectPrompt(){ const p = $("#promptBox"); if (!p) return; const r = document.createRange(); r.selectNodeContents(p); const s = getSelection(); s.removeAllRanges(); s.addRange(r); toast("Teks terpilih, tekan salin"); }
@@ -3440,6 +3477,287 @@ document.addEventListener("change", e => {
   if (t.dataset.engev && t.tagName === "SELECT") { E().ev[t.dataset.engev] = t.value; save(); const s = $("#engSum"); if (s) s.textContent = engSummary(); }
 });
 document.addEventListener("click", e => { const a = e.target.closest && e.target.closest('#tabs a[href="#english"]'); if (a) { ui.engOpen = null; ui.engRev = null; engStop(); } }, true);
+
+const WV_LIST = [["perempuan","iCvmsMzlF7o","The Power of Vulnerability | Brené Brown | TED","TED","20:50","en","Brené Brown: berani rapuh justru bikin hidup lebih utuh."],
+["perempuan","18uDutylDa4","Why we have too few women leaders | Sheryl Sandberg","TED","15:29","en","Kenapa perempuan masih jarang di pucuk kepemimpinan."],
+["perempuan","hg3umXU_qWc","We should all be feminists | Chimamanda Ngozi Adichie | TEDxEuston","TEDx Talks","30:16","en","Feminisme versi paling masuk akal, lucu, dan hangat."],
+["perempuan","D9Ihs241zeg","Chimamanda Ngozi Adichie: The Danger of a Single Story | TED","TED","19:17","en","Bahaya kalau kita cuma tahu satu versi cerita tentang orang lain."],
+["perempuan","fC9da6eqaqg","Teach girls bravery, not perfection | Reshma Saujani","TED","12:40","en","Anak perempuan dididik buat sempurna, bukan berani. Apa efeknya?"],
+["perempuan","JJZ8z_nTCZQ","How menopause affects the brain | Lisa Mosconi","TED","13:05","en","Menopause ternyata juga 'mengubah' otak perempuan."],
+["perempuan","sJCBM9ajA5s","Why Medicine Often Has Dangerous Side Effects for Women | Alyson McGregor | TED Talks","TED","15:30","en","Dulu obat dan riset medis banyak diuji di laki-laki saja. Bahayanya buat perempuan."],
+["perempuan","L-q-tSHo9Ho","The truth about unwanted arousal | Emily Nagoski","TED","15:17","en","Sains seksualitas perempuan yang jarang diajarkan di kuliah."],
+["perempuan","ysRvYxznrq4","Why can't we talk about periods? | Jen Gunter","TED","11:43","en","Kenapa menstruasi masih tabu? Dari sudut pandang dokter obgyn."],
+["perempuan","QjGCA1ysrC0","Kenapa Perempuan Harus Menstruasi Tiap Bulan?","Kok Bisa?","3:16","id","Kenapa perempuan harus menstruasi tiap bulan? (versi animasi singkat)"],
+["perempuan","F_ssj7-8rYg","The surprising effects of pregnancy","TED-Ed","5:46","en","Efek kehamilan yang mengejutkan, termasuk sel janin yang 'tinggal' di tubuh ibu."],
+["perempuan","BD6h-wDj7bw","Why Women Are Stripey","Veritasium","5:17","en","Perempuan sebenarnya 'belang' (inaktivasi kromosom X). Mind-blowing!"],
+["perempuan","PNKbbSniAig","Let's put birth control back on the agenda - Melinda Gates","TED-Ed","25:37","en","Kontrasepsi sebagai isu kesehatan global. Nyambung blok Repro!"],
+["perempuan","akOe5-UsQ2o","The urgency of intersectionality | Kimberlé Crenshaw | TED","TED","18:50","en","Interseksionalitas: ketika diskriminasi datang bertumpuk."],
+["perempuan","QxkxcsrveLw","Leymah Gbowee: Unlock the intelligence, passion, greatness of girls | TED","TED","14:40","en","Pemenang Nobel Perdamaian: membuka potensi anak perempuan."],
+["perempuan","ElJxUVJ8blw","Jackson Katz: Violence against women—it's a men's issue","TED","17:41","en","Kekerasan terhadap perempuan itu sebenarnya isu laki-laki."],
+["perempuan","BXlnrFpCu0c","My son was a Columbine shooter. This is my story | Sue Klebold | TED","TED","15:19","en","Seorang ibu yang anaknya pelaku penembakan Columbine. Sangat dalam."],
+["perempuan","c2DHzlkUI6s","Malala Yousafzai: Nobel Peace Prize Lecture 2014","Nobel Prize","28:29","en","Pidato Nobel Malala: pendidikan untuk anak perempuan."],
+["perempuan","iuxWjJftFGY","Maudy Ayunda: Kartini Modern Berani Tantang Status Quo | Endgame #77","Gita Wirjawan","1:29:15","id","Maudy Ayunda soal belajar, karier, dan berani melawan status quo."],
+["perempuan","80AjI0hlbf8","Sri Mulyani: Bijak & Inovatif Kelola Fiskal | Endgame #58","Gita Wirjawan","1:24:08","id","Sri Mulyani: cara berpikir seorang pemimpin perempuan."],
+["perempuan","a8571M_QFaU","Learn, Unlearn, Relearn | Endgame ft. Dian Sastrowardoyo (Part 1)","Gita Wirjawan","30:45","id","Dian Sastrowardoyo: learn, unlearn, relearn."],
+["pediatri","95ovIJ3dsNk","How childhood trauma affects health across a lifetime | Nadine Burke Harris | TED","TED","16:03","en","ACEs: trauma masa kecil memengaruhi kesehatan sampai dewasa. Wajib buat calon Sp.A!"],
+["pediatri","aISXCw0Pi94","How Every Child Can Thrive by Five | Molly Wright | TED","TED","7:43","en","5 cara sederhana membangun otak anak di 5 tahun pertama."],
+["pediatri","m_5u8-QSh6A","Serve & Return Interaction Shapes Brain Circuitry","Center on the Developing Child at Harvard University","1:43","en","'Serve and return': interaksi kecil yang membentuk sirkuit otak anak."],
+["pediatri","rVwFkcOZHJw","Toxic Stress Derails Healthy Development","Center on the Developing Child at Harvard University","1:52","en","Toxic stress: kenapa stres kronis merusak perkembangan anak."],
+["pediatri","WO-CB2nsqTA","InBrief: The Science of Early Childhood Development","Center on the Developing Child at Harvard University","3:58","en","Sains perkembangan anak usia dini dalam 4 menit."],
+["pediatri","G2XBIkHW954","The linguistic genius of babies | Patricia Kuhl","TED","13:28","en","Bayi itu 'jenius bahasa'. Bagaimana otaknya belajar?"],
+["pediatri","cplaWsiu7Yg","Alison Gopnik: What do babies think?","TED","18:30","en","Bayi berpikir layaknya ilmuwan kecil."],
+["pediatri","y1KIVZw7Jxk","Laura Schulz: The surprisingly logical minds of babies","TED","20:19","en","Eksperimen lucu yang menunjukkan bayi ternyata sangat logis."],
+["pediatri","YTTSXc6sARg","Still Face Experiment  Dr  Edward Tronick","Mindyour class","2:49","en","Still Face Experiment: apa yang terjadi kalau ibu tiba-tiba berwajah datar."],
+["pediatri","OrNBEhzjg8I","Harlow's Studies on Dependency in Monkeys","Michael Baker","6:08","en","Eksperimen monyet Harlow: kasih sayang lebih penting dari makanan."],
+["pediatri","gYzXvt15sLI","What HAPPENED to the Romanian Orphans?","Bear it in MIND","7:59","en","Anak panti Rumania: dampak penelantaran pada otak."],
+["pediatri","XcmrCLL7Rtw","Walter Mischel - The Marshmallow Test","The Brainwaves Video Anthology","4:22","en","Tes marshmallow: kontrol diri anak dan masa depannya."],
+["pediatri","XHIhkM1cAv4","Social Learning Theory: Bandura’s Bobo Beatdown Experiments","Sprouts","4:27","en","Eksperimen Bobo doll: anak belajar kekerasan dengan meniru."],
+["pediatri","GOCUH7TxHRI","How we read each other's minds | Rebecca Saxe","TED","16:52","en","Theory of mind: kapan anak mulai 'membaca' pikiran orang lain."],
+["pediatri","qFTljLo1bK8","Daniel Siegel   Hand Model","Dr. Dan Siegel","2:31","en","Model otak di telapak tangan: kenapa anak (dan kita) bisa 'meledak'."],
+["pediatri","PHpPtdk9rco","The Single Most Important Parenting Strategy | Becky Kennedy | TED","TED","14:04","en","Strategi parenting paling penting menurut psikolog: 'repair'."],
+["pediatri","CyElHdaqkjo","How to Raise Successful Kids -- Without Over-Parenting | Julie Lythcott-Haims | TED","TED","14:17","en","Bahaya over-parenting."],
+["pediatri","SFnMTHhKdkw","Every kid needs a champion | Rita Pierson | TED","TED","7:49","en","Setiap anak butuh satu orang dewasa yang percaya padanya."],
+["pediatri","iG9CE55wbtY","Do schools kill creativity? | Sir Ken Robinson | TED","TED","20:04","en","TED Talk paling banyak ditonton: apakah sekolah membunuh kreativitas?"],
+["pediatri","BoT7qH_uVNo","TEDxRainier - Dimitri Christakis - Media and Children","TEDx Talks","16:12","en","Gadget dan otak anak, dari dokter anak sekaligus peneliti."],
+["pediatri","pJQvNbYeSws","Flint’s fight for America’s children","TEDMED","16:07","en","Dokter anak yang membongkar krisis air bertimbal di Flint."],
+["pediatri","rb7TVW77ZCs","How do vaccines work? - Kelwalin Dhanasarnsombut","TED-Ed","4:36","en","Cara kerja vaksin, singkat dan jelas."],
+["pediatri","yjflCMPie74","Kenapa Orang Bule Tinggi-Tinggi?","Kok Bisa?","3:01","id","Kenapa orang bule tinggi-tinggi? Gizi, genetik, dan stunting."],
+["psikologi","8KkKuTCFvzI","What Makes a Good Life? Lessons from the Longest Study on Happiness | Robert Waldinger | TED","TED","12:47","en","Studi Harvard 75+ tahun: apa yang bikin hidup bahagia."],
+["psikologi","RcGyVTAoXEU","How to Make Stress Your Friend | Kelly McGonigal | TED","TED","14:29","en","Stres bisa jadi kawan, tergantung cara kita memandangnya."],
+["psikologi","4q1dgn_C0AU","The surprising science of happiness | Dan Gilbert","TED","21:20","en","Otak kita bisa 'memproduksi' kebahagiaan sendiri."],
+["psikologi","XgRlrBl-7Yg","The riddle of experience vs. memory | Daniel Kahneman","TED","20:37","en","Diri yang mengalami vs diri yang mengingat (Nobel ekonomi)."],
+["psikologi","F2hc2FLOdhI","How to practice emotional first aid | Guy Winch | TED","TED","17:29","en","P3K untuk luka emosional."],
+["psikologi","NDQ1Mi5I4rg","The gift and power of emotional courage | Susan David","TED","16:49","en","Berani merasakan emosi, bukan menolaknya."],
+["psikologi","H14bBuluwB8","Grit: The Power of Passion and Perseverance | Angela Lee Duckworth | TED","TED","6:13","en","Grit: kenapa ketekunan bisa lebih penting dari bakat."],
+["psikologi","Ks-_Mh1QhMc","Your Body Language May Shape Who You Are | Amy Cuddy | TED","TED","21:03","en","Bahasa tubuh dan rasa percaya diri."],
+["psikologi","PY9DcIMGxMs","Everything you think you know about addiction is wrong | Johann Hari | TED","TED","14:43","en","Lawan dari kecanduan bukan 'sadar', tapi koneksi."],
+["psikologi","-eBUcBfkVCo","Depression, the secret we share | Andrew Solomon","TED","29:22","en","Depresi diceritakan dari dalam, sangat jujur."],
+["psikologi","z-IR48Mb3W0","What is depression? - Helen M. Farrell","TED-Ed","4:29","en","Depresi itu apa sebenarnya? (animasi singkat)"],
+["psikologi","O_MQr4lHm0c","How changing your story can change your life | Lori Gottlieb | TED","TED","16:26","en","Psikoterapis: cerita yang kita ceritakan ke diri sendiri bisa diubah."],
+["psikologi","n3Xv_g3g-mA","Loneliness","Kurzgesagt","13:07","en","Kenapa kesepian terasa sakit (evolusi otak sosial)."],
+["psikologi","arJLy3hX1E8","The psychology of narcissism - W. Keith Campbell","TED-Ed","5:10","en","Psikologi narsisme."],
+["psikologi","ZQUxL4Jm1Lo","What is imposter syndrome and how can you combat it? - Elizabeth Cox","TED-Ed","4:19","en","Imposter syndrome: merasa 'nggak pantas' padahal mampu."],
+["psikologi","b_n9qegR7C4","The psychology of post-traumatic stress disorder - Joelle Rabow Maletis","TED-Ed","5:13","en","Psikologi PTSD."],
+["psikologi","vuMt8b4UrcI","The Milgram Experiment: Obedience to Authority","Sprouts","5:12","en","Eksperimen Milgram: seberapa jauh orang patuh pada otoritas."],
+["psikologi","WkK5eA_qhFk","Asch’s Conformity Experiment on Groupthink","Sprouts","5:26","en","Eksperimen Asch: tekanan untuk ikut-ikutan."],
+["psikologi","NNnIGh9g6fA","1. Introduction to Human Behavioral Biology","Stanford","57:15","en","Kuliah Stanford Sapolsky: biologi perilaku manusia (seri panjang, sangat dalam)."],
+["psikologi","K51Q1Xt0Ydc","Kenapa Manusia Punya Perasaan? (Belajar Psikologi: Seri Emosi)","Satu Persen","12:03","id","Kenapa manusia punya perasaan? (seri belajar psikologi)"],
+["psikologi","VqY1fBptc2g","Kenali Pikiranmu, Kurangi Overthinking-mu","Satu Persen","10:44","id","Kenali pikiranmu, kurangi overthinking."],
+["psikologi","5yuHbTRghgU","Memahami Inner Child, Self Reward, dan Hobi","Satu Persen","20:19","id","Memahami inner child."],
+["psikologi","oqR1ch6MWzo","Buat yang Ngerasa Susah untuk Self-Love (Cara Mencintai Diri Sendiri)","Satu Persen","4:43","id","Buat yang ngerasa susah self-love."],
+["psikologi","uYcANpgEJPc","Kurang Istirahat Ngerjain Tugas atau Kerjaan (Kiat Sukses Hadapi Lelah dan Burnout)","Satu Persen","8:05","id","Lelah dan burnout: kiat pulih."],
+["psikologi","yDD5R3_F8UI","Mengapa Kita Semakin Kesepian & Cemas akan Kesendirian?","Satu Persen","10:24","id","Kenapa kita makin kesepian dan cemas sendirian?"],
+["relasi","sa0RUmGTCYY","The secret to desire in a long-term relationship | Esther Perel | TED","TED","19:11","en","Rahasia menjaga 'rasa' dalam hubungan jangka panjang."],
+["relasi","P2AUat93a8Q","Rethinking infidelity ... a talk for anyone who has ever loved | Esther Perel | TED","TED","21:31","en","Memahami perselingkuhan dari sisi psikologi."],
+["relasi","OYfoGTIG7pY","The brain in love | Helen Fisher","TED","16:28","en","Otak yang sedang jatuh cinta (neurosains cinta)."],
+["relasi","3aYWvujaT6M","Falling in love is the easy part | Mandy Len Catron","TED","13:54","en","36 pertanyaan untuk jatuh cinta, dan bagian yang lebih sulit."],
+["relasi","-EvvPZFdjyk","Why You Will Marry the Wrong Person","The School of Life","22:20","en","Kenapa kita (mungkin) menikahi orang yang 'salah'."],
+["relasi","1o30Ps-_8is","Four Horsemen of the Apocalypse | The Gottman Institute: Relationship Behaviors that Lead to Failure","The Gottman Institute","2:13","en","4 perilaku yang meramalkan hubungan bakal gagal."],
+["relasi","1Evwgu369Jw","Brené Brown on Empathy","Royal Society of Arts","2:53","en","Empati vs simpati, animasi 3 menit yang legendaris."],
+["relasi","R1vskiVDwl4","Celeste Headlee: 10 ways to have a better conversation | TED","TED","11:45","en","10 cara ngobrol yang lebih bermakna (berguna juga buat anamnesis!)."],
+["relasi","eIho2S0ZahI","How to Speak So That People Want to Listen | Julian Treasure | TED","TED","9:59","en","Cara bicara supaya orang mau mendengar."],
+["relasi","KbzwXNXEZgg","Attachment Style: Mengapa Kita Sering SALAH Pilih Pasangan Hidup","Satu Persen","16:19","id","Attachment style: kenapa kita sering salah pilih pasangan."],
+["relasi","LSl0Lnl-6-8","Tanda Kamu Berada di Toxic Relationship? (Tanda Kamu Harus Putus)","Satu Persen","10:11","id","Tanda kamu ada di toxic relationship."],
+["relasi","pnwPYGN_BAE","Buat Kamu yang Sering Merasa Gak Enakan (Filosofi Altruisme)","Satu Persen","10:44","id","Buat kamu yang sering merasa nggak enakan."],
+["relasi","JptpQqWdSv4","TOXIC TAPI NAGIH (?) Kenapa Kita Tertarik ke Orang yang Menyakiti Kita?","Satu Persen","14:27","id","Kenapa kita tertarik ke orang yang menyakiti kita?"],
+["relasi","RanC4y3XQJI","Apakah Jodoh Benar-benar Ada?","Kok Bisa?","3:49","id","Apakah jodoh benar-benar ada? (versi sains)"],
+["filsafat","yu7n0XzqtfA","PHILOSOPHY - The Stoics","The School of Life","4:54","en","Stoikisme: tenang di tengah hal yang tak bisa dikendalikan."],
+["filsafat","csIW4W_DYX4","PHILOSOPHY - Aristotle","The School of Life","7:30","en","Aristoteles dan hidup yang baik."],
+["filsafat","fLJBzhcSWTk","Why Socrates Hated Democracy","The School of Life","4:22","en","Kenapa Socrates membenci demokrasi."],
+["filsafat","jQOfbObFOCw","PHILOSOPHY - Albert Camus","The School of Life","9:37","en","Camus dan absurditas hidup."],
+["filsafat","wHWbZmg2hzU","PHILOSOPHY - Nietzsche","The School of Life","6:57","en","Nietzsche tanpa pusing."],
+["filsafat","q0zmfNx7OM4","PHILOSOPHY - Schopenhauer","The School of Life","9:29","en","Schopenhauer: pesimis yang anehnya menghibur."],
+["filsafat","3bQsZxDQgzU","PHILOSOPHY - Sartre","The School of Life","6:37","en","Sartre: kebebasan yang menakutkan."],
+["filsafat","D9JCwkx558o","PHILOSOPHY - Soren Kierkegaard","The School of Life","6:47","en","Kierkegaard: kecemasan dan pilihan."],
+["filsafat","tilBs32zN7I","EASTERN PHILOSOPHY - The Buddha","The School of Life","5:43","en","Ajaran Buddha sebagai filsafat."],
+["filsafat","dFb7Hxva5rg","EASTERN PHILOSOPHY - Lao Tzu","The School of Life","5:30","en","Lao Tzu dan Taoisme."],
+["filsafat","tUhGRh4vdb8","EASTERN PHILOSOPHY - Confucius","The School of Life","5:36","en","Konfusius."],
+["filsafat","MBRqu0YOH14","Optimistic Nihilism","Kurzgesagt","7:26","en","Nihilisme optimis: kalau hidup tak punya makna bawaan, kita bebas mengisinya."],
+["filsafat","h6fcK_fRYaI","The Egg - A Short Story","Kurzgesagt","8:06","en","Cerita pendek 'The Egg' yang bikin merinding."],
+["filsafat","QOCaacO8wus","What Is Life? Is Death Real?","Kurzgesagt","5:57","en","Apa itu hidup? Apakah kematian itu nyata?"],
+["filsafat","JQVmkDUkZT4","What Are You?","Kurzgesagt","6:28","en","Kamu itu sebenarnya apa? Sel, atom, atau kesadaran?"],
+["filsafat","1RWOpQXTltA","Plato’s Allegory of the Cave - Alex Gendler","TED-Ed","4:33","en","Alegori gua Plato."],
+["filsafat","q4pDUxth5fQ","The myth of Sisyphus - Alex Gendler","TED-Ed","4:57","en","Mitos Sisifus: dorong batu selamanya, tapi tetap bahagia?"],
+["filsafat","yg16u_bzjPE","Would you sacrifice one person to save five? - Eleanor Nelsen","TED-Ed","4:56","en","Dilema troli: etika yang relevan banget buat dokter."],
+["filsafat","UHwVyplU3Pg","Who am I? A philosophical inquiry - Amy Adkins","TED-Ed","4:59","en","Siapa aku? Pertanyaan identitas diri."],
+["filsafat","kBdfcR-8hEY","Justice: What's The Right Thing To Do? Episode 01 \"THE MORAL SIDE OF MURDER\"","Harvard University","54:56","en","Kuliah legendaris Harvard soal keadilan dan moral."],
+["filsafat","wU0PYcCsL6o","The Dream Of Life - Alan Watts","T&H - Inspiration & Motivation","3:39","en","Alan Watts: renungan klasik tentang hidup."],
+["filsafat","15L0rNuor0Y","MEMAHAMI FILSAFAT STOIKISME.","Ferry Irwandi","14:42","id","Memahami filsafat stoikisme (bahasa Indonesia)."],
+["filsafat","xMU2LaRq8qU","Mari Merayakan Kematian Filsafat!","Ferry Irwandi","13:02","id","Ferry Irwandi: soal 'kematian' filsafat."],
+["filsafat","I1wgZcYE3ow","Memahami Definisi & Penggunaan “IDEALISME\".","Ferry Irwandi","16:30","id","Memahami idealisme."],
+["filsafat","rOqrhkdeYuc","Prof Quraish Shihab: Benahi Hati, Baca Alam Raya | Endgame #112 (Luminaries)","Gita Wirjawan","56:48","id","Prof. Quraish Shihab: perbaiki hati, baca semesta."],
+["keuangan","TJDcGv9OH4Q","THE PSYCHOLOGY OF MONEY (BY MORGAN HOUSEL)","The Swedish Investor","15:35","en","Psikologi uang: perilaku lebih penting dari kepintaran."],
+["keuangan","PHe0bXAIuk0","How The Economic Machine Works by Ray Dalio","Principles by Ray Dalio","31:00","en","Cara kerja mesin ekonomi dalam 30 menit. Sangat membuka mata."],
+["keuangan","fTTGALaRZoc","Banking Explained – Money and Credit","Kurzgesagt","6:10","en","Bank dan uang itu sebenarnya bekerja bagaimana."],
+["keuangan","u5eewhr7KKY","What The Heck Is An Index Fund?","Two Cents","7:08","en","Reksa dana indeks: investasi 'malas' tapi efektif."],
+["keuangan","vftjBTjFlzI","Why You NEED an Emergency Fund!","Two Cents","7:05","en","Kenapa kamu butuh dana darurat."],
+["keuangan","sVKQn2I4HDM","Budgeting Basics!","Two Cents","5:13","en","Dasar-dasar budgeting."],
+["keuangan","p7HKvqRI_Bo","How does the stock market work? - Oliver Elfenbaum","TED-Ed","4:30","en","Pasar saham itu apa sih."],
+["keuangan","GFTKKyYSCKs","Why can’t governments print an unlimited amount of money? - Jonathan Smith","TED-Ed","4:55","en","Kenapa negara nggak cetak uang tanpa batas? (inflasi)"],
+["keuangan","D9N7QaIOkG8","Why is it so hard to escape poverty? - Ann-Helén Bay","TED-Ed","4:46","en","Kenapa susah keluar dari kemiskinan."],
+["keuangan","A5w-dEgIU1M","The Equation That Beat Wall Street","Veritasium","30:11","en","Persamaan matematika yang 'mengalahkan' Wall Street."],
+["keuangan","9O73aOoper0","Konsep Keuangan 50/30/20 SALAH TOTAL?!😱","Felicia Putri Tjiasaka","7:39","id","Konsep keuangan 50/30/20, benar atau salah?"],
+["keuangan","UJMWXrKkeFM","TUTORIAL INVESTASI DARI NOL UNTUK PEMULA","Felicia Putri Tjiasaka","10:28","id","Tutorial investasi dari nol untuk pemula."],
+["keuangan","RNfYt6tO1Y0","Strategi Kumpulin DANA DARURAT - 50 JUTA dalam 365 HARI | #challenge365hari - Maret","Felicia Putri Tjiasaka","8:14","id","Strategi ngumpulin dana darurat."],
+["keuangan","RXSW1KP3Fn0","Q&A REKSADANA | #REKSADANASERIES","Felicia Putri Tjiasaka","13:13","id","Tanya jawab reksa dana."],
+["keuangan","Xz_B-6t_uho","Cara \"Bertahan Hidup\" Untuk Gaji UMR & Sandwich Generation (ft Theo Derick)","Raymond Chin","57:11","id","Bertahan hidup dengan gaji UMR dan sandwich generation."],
+["keuangan","1Iv3Xr9ZUy0","Belajar HUTANG ala Orang Kaya","Raymond Chin","9:09","id","Belajar soal utang ala orang kaya."],
+["keuangan","MXj1oSUEVv8","Bagaimana Sebenarnya Pasar Saham Bekerja?","Kok Bisa?","3:36","id","Bagaimana pasar saham bekerja (animasi)."],
+["keuangan","01j4VAk1Wfc","Kenapa Negara Tak Mencetak Uang Sebanyak-banyaknya?","Kok Bisa?","2:22","id","Kenapa negara tak mencetak uang sebanyak-banyaknya?"],
+["keuangan","Hxrht2835T0","Benarkah Orang Miskin Tambah Miskin dan yang Kaya Tambah Kaya?","Kok Bisa?","3:16","id","Benarkah yang miskin makin miskin dan yang kaya makin kaya?"],
+["keuangan","rTu824dilZo","GDP adalah Ilusi untuk Kesejahteraan Ekonomi","Ferry Irwandi","10:37","id","GDP itu ilusi kesejahteraan?"],
+["keuangan","7nxUAyxNUKE","My honest advice to someone who wants financial freedom","Ali Abdaal","1:16:29","en","Saran jujur buat yang mau financial freedom (dari mantan dokter)."],
+["mindset","_X0mgOOSpLU","The power of believing that you can improve | Carol Dweck | TED","TED","10:25","en","Growth mindset dari penemunya langsung."],
+["mindset","arj7oStGLkU","Inside the Mind of a Master Procrastinator | Tim Urban | TED","TED","14:04","en","Isi kepala penunda pekerjaan level master. Lucu dan ngena."],
+["mindset","O96fE1E-rf8","Learning how to learn | Barbara Oakley | TEDxOaklandUniversity","TEDx Talks","17:51","en","Cara otak belajar: mode fokus vs difus. Berguna banget buat blok."],
+["mindset","ukLnPbIffxE","How to study for exams - Evidence-based revision tips","Ali Abdaal","20:59","en","Teknik belajar berbasis bukti (active recall dan spaced repetition), dari mantan mahasiswa kedokteran."],
+["mindset","AjoxkxM_I5g","How I Remember Everything I Read","Ali Abdaal","15:53","en","Cara mengingat semua yang kamu baca."],
+["mindset","fLJsdqxnZb0","The happy secret to better work | Shawn Achor","TED","12:21","en","Bahagia dulu, baru sukses (bukan sebaliknya)."],
+["mindset","UNP03fDSj1U","Try something new for 30 days - Matt Cutts","TED-Ed","3:28","en","Coba hal baru selama 30 hari."],
+["mindset","rrkrvAUbU9Y","The puzzle of motivation | Dan Pink | TED","TED","18:37","en","Kenapa hadiah malah bisa bikin performa turun."],
+["mindset","fxbCHn6gE3U","The surprising habits of original thinkers | Adam Grant | TED","TED","15:25","en","Kebiasaan unik para pemikir orisinal."],
+["mindset","psN1DORYYV0","Listening to shame | Brené Brown | TED","TED","20:39","en","Rasa malu (shame) dan cara melawannya."],
+["mindset","8GQZuzIdeQQ","How to make hard choices | Ruth Chang","TED","14:42","en","Cara memutuskan pilihan yang sulit."],
+["mindset","qp0HIF3SfI4","How Great Leaders Inspire Action | Simon Sinek | TED","TED","18:35","en","Start with why."],
+["mindset","3E7hkPZ-HTk","Quit social media | Dr. Cal Newport | TEDxTysons","TEDx Talks","13:51","en","Berhenti dari media sosial: argumen seorang profesor."],
+["mindset","Lp7E973zozc","How to stop screwing yourself over | Mel Robbins | TEDxSF","TEDx Talks","21:40","en","Cara berhenti menyabotase diri sendiri."],
+["mindset","U_nzqnXWvSo","Atomic Habits: How to Get 1% Better Every Day - James Clear","APB Speakers","8:04","en","Atomic Habits: 1% lebih baik setiap hari."],
+["mindset","75d_29QWELk","Change Your Life – One Tiny Step at a Time","Kurzgesagt","11:31","en","Ubah hidup satu langkah kecil setiap kali."],
+["mindset","8e3RC1L5V_Y","Tools to Improve Your Focus & Concentration | Huberman Lab Essentials","Andrew Huberman","37:22","en","Neurosains fokus dan konsentrasi."],
+["mindset","QmOF0crdyRU","Controlling Your Dopamine For Motivation, Focus & Satisfaction","Andrew Huberman","2:16:32","en","Dopamin dan motivasi (episode panjang)."],
+["mindset","UF8uR6Z6KLc","Steve Jobs' 2005 Stanford Commencement Address","Stanford","15:05","en","Pidato wisuda legendaris: connecting the dots."],
+["mindset","ji5_MqicxSo","Randy Pausch's Last Lecture: Achieving Your Childhood Dreams","Carnegie Mellon University","1:16:27","en","The Last Lecture: kuliah terakhir profesor yang sedang sekarat."],
+["mindset","pjNEpUA14M8","Bagaimana Menghadapi Quarter-Life Crisis? (Apakah Berbahaya?)","Satu Persen","8:57","id","Menghadapi quarter-life crisis."],
+["mindset","kGfb0Ps0jDs","3 Cara Optimal Buat Tidak Menunda-Nunda (Tips Anti Prokrastinasi dan Melawan Rasa Malas)","Satu Persen","5:48","id","3 cara biar nggak menunda-nunda."],
+["mindset","aSjPlAJQGu0","Belajar Growth Mindset dari Haikyuu (Motivasi Hidup dan Semangat untuk Berkembang)","Satu Persen","8:32","id","Growth mindset dari Haikyuu."],
+["medis","L3QkaS249Bc","How do we heal medicine? | Atul Gawande","TED","19:20","en","Dokter bedah & penulis: dokter sebagai tim 'pit crew', bukan koboi."],
+["medis","iUbfRzxNy20","Brian Goldman: Doctors make mistakes. Can we talk about that?","TED","19:29","en","Dokter juga bisa salah. Bisakah kita membicarakannya?"],
+["medis","sxnlvwprf_c","Abraham Verghese: A doctor's touch","TED","18:33","en","Pentingnya sentuhan dan pemeriksaan fisik."],
+["medis","apbSsILLh28","What really matters at the end of life | BJ Miller | TED","TED","19:08","en","Paliatif: apa yang sungguh penting di akhir hidup."],
+["medis","ayMhA1pRLeY","Dying for Beginners | Dr Kathryn Mannix","Theos Think Tank","4:19","en","Seperti apa sebenarnya proses sekarat? Menenangkan."],
+["medis","qHlZWtxyAYc","Why we need medical diagnosis detectives","TEDMED","16:11","en","Dokter 'detektif diagnosis' (inspirasi serial House)."],
+["medis","lVQ3KUTHDe0","Leana Wen: What your doctor won’t disclose","TED","15:47","en","Apa yang dokter tidak ungkapkan ke pasien."],
+["medis","h4MhbkWJzKk","Ben Goldacre: Battling Bad Science","TED","14:20","en","Cara mengenali sains abal-abal dan bias riset obat."],
+["medis","vcwyN7hyXh8","On The Art of Medicine | Ranjana Srivastava | TEDxFulbrightMelbourne","TEDx Talks","7:26","en","Seni kedokteran dari seorang onkolog."],
+["medis","yToDJlfa_Tc","Fear: A Necessary Emotion for Doctors | Danielle Ofri | TEDxBeaconStreetSalon","TEDx Talks","12:57","en","Takut: emosi yang perlu dimiliki dokter."],
+["medis","qG_YmIPFO68","Soon We'll Cure Diseases With a Cell, Not a Pill | Siddhartha Mukherjee | TED Talks","TED","17:32","en","Masa depan: menyembuhkan penyakit dengan sel, bukan pil."],
+["medis","6Af6b_wyiwI","The next outbreak? We’re not ready | Bill Gates | TED","TED","8:37","en","Ramalan Bill Gates 2015 soal pandemi."],
+["medis","MNhiHf84P9c","Larry Brilliant: TED Prize wish: Help stop the next pandemic","TED","26:36","en","Pemberantasan cacar dan cara mencegah pandemi berikutnya."],
+["medis","pgB1IqGp8BE","Henrietta Lacks: The 'immortal' cells that changed the world - BBC REEL","BBC Global","8:00","en","HeLa: sel 'abadi' yang mengubah kedokteran, dan isu etiknya."],
+["medis","xZbcwi7SfZE","The Antibiotic Apocalypse Explained","Kurzgesagt","5:58","en","Resistensi antibiotik: kiamat diam-diam."],
+["medis","ho6-OHqZR1M","Satu Kebetulan yang Selamatkan Jutaan Nyawa","Kok Bisa?","4:55","id","Satu kebetulan yang menyelamatkan jutaan nyawa (penisilin)."],
+["medis","lXfEK8G8CUI","How The Immune System ACTUALLY Works – IMMUNE","Kurzgesagt","10:48","en","Sistem imun dianimasikan dengan super cantik."],
+["medis","uoJwt9l-XhQ","The Reason Why Cancer is so Hard to Beat","Kurzgesagt","10:25","en","Kenapa kanker begitu sulit dikalahkan."],
+["medis","YI3tsmFsrOg","The Deadliest Being on Planet Earth – The Bacteriophage","Kurzgesagt","7:09","en","Virus pemakan bakteri: senjata masa depan lawan resistensi."],
+["medis","5MuIMqhT8DM","Sleep Is Your Superpower | Matt Walker | TED","TED","19:19","en","Tidur adalah 'kekuatan super'. Tamparan buat anak kedokteran."],
+["medis","dqONk48l5vY","What would happen if you didn’t sleep? - Claudia Aguirre","TED-Ed","4:35","en","Apa yang terjadi kalau kamu nggak tidur."],
+["medis","RGgX_NIh2zc","Apa itu Depresi (Akibat dan Cara Mengatasi Depresi)","Satu Persen","4:18","id","Apa itu depresi (bahasa Indonesia)."],
+["medis","FZ8S9ug5DsQ","Bagi dr. Tirta, Kepintaran Tidak Pernah Cukup | Endgame #218","Gita Wirjawan","1:56:04","id","dr. Tirta: apakah pintar saja cukup?"],
+["unik","QImCld9YubE","Why Are You Alive – Life, Energy & ATP","Kurzgesagt","10:16","en","Kenapa kamu hidup? ATP dan energi sel."],
+["unik","VzPD009qTN4","How Bacteria Rule Over Your Body – The Microbiome","Kurzgesagt","7:38","en","Bakteri yang 'menguasai' tubuhmu: mikrobioma."],
+["unik","sNhhvQGsMEc","The Fermi Paradox — Where Are All The Aliens? (1/2)","Kurzgesagt","6:21","en","Paradoks Fermi: di mana semua alien?"],
+["unik","gtDKKJq9u30","The Dumbest Animal Alive","Kurzgesagt","11:05","en","Hewan 'terbodoh' yang masih hidup sampai sekarang."],
+["unik","9FppammO1zk","The Most Dangerous Weapon Is Not Nuclear","Kurzgesagt","11:05","en","Senjata paling berbahaya bukan nuklir."],
+["unik","JTvcpdfGUtQ","What Is The Speed of Dark?","Vsauce","13:32","en","Berapa kecepatan gelap?"],
+["unik","TRL7o2kPqw0","The Most Radioactive Places on Earth","Veritasium","11:17","en","Tempat paling radioaktif di bumi."],
+["unik","zaXKQ70q4KQ","The Man Who Took LSD and Changed The World","Veritasium","33:40","en","Pria yang mengubah dunia (kisah di balik PCR)."],
+["unik","MMmOLN5zBLY","The benefits of a bilingual brain - Mia Nacamulli","TED-Ed","5:04","en","Manfaat otak bilingual (semangat English-nya!)."],
+["unik","xvjK-4NXRsM","What happens when you have a concussion? - Clifford Robbins","TED-Ed","6:15","en","Apa yang terjadi saat gegar otak."],
+["unik","j5Sl8LyI7k8","What causes insomnia? - Dan Kwartler","TED-Ed","5:12","en","Apa penyebab insomnia."],
+["unik","Jsj-hDW9bS8","The history of the world according to cats - Eva-Maria Geigl","TED-Ed","4:35","en","Sejarah dunia menurut kucing."],
+["unik","wbR-5mHI6bo","Is It Too Late To Stop Climate Change? Well, it's Complicated.","Kurzgesagt","10:07","en","Apakah sudah terlambat menghentikan perubahan iklim?"],
+["unik","m6KnVTYtSc0","Why Does Fentanyl Feel So Good?","Kurzgesagt","14:58","en","Kenapa fentanyl terasa begitu 'enak' (dan mematikan)."],
+["unik","yudg1ToSeAY","Kenapa Kita Bermimpi?","Kok Bisa?","2:45","id","Kenapa kita bermimpi?"],
+["unik","JKNscyn8k-I","Bagaimana Déjà vu Bisa Terjadi?","Kok Bisa?","2:16","id","Bagaimana déjà vu bisa terjadi?"],
+["unik","nMuq3_hzdtk","Kenapa Kita Bisa Lupa?","Kok Bisa?","2:48","id","Kenapa kita bisa lupa?"],
+["unik","LOzkGY7SNBs","Kenapa Habis Makan Ngantuk? Bukan Berenergi?","Kok Bisa?","3:48","id","Kenapa habis makan malah ngantuk?"],
+["unik","ujfZmBrNywA","Kenapa Liburan Terasa Cepat Berlalu?!","Kok Bisa?","2:58","id","Kenapa liburan terasa cepat berlalu?"],
+["unik","aCTk89kQewc","Benarkah Kalau Merinding Berarti Ada Hantu?","Kok Bisa?","3:06","id","Benarkah merinding tanda ada hantu?"],
+["unik","pD3z2Nansxs","Tan Malaka, Revolusi dan Sejarah yang hilang di One Piece","Ferry Irwandi","12:56","id","Tan Malaka, revolusi, dan sejarah yang hilang."],
+["unik","gUafTC50GVQ","Namanya Diabadikan pada Benda Langit, Kosmolog Frontier Premana Premadi | Endgame #280","Gita Wirjawan","2:22:43","id","Kosmolog Indonesia yang namanya diabadikan di benda langit."],
+["unik","pSoNHjeqQ2s","Suzie Sudarman: Propaganda, Kapitalisme, Utamakan Kepentingan Nasional | Endgame #278","Gita Wirjawan","1:37:09","id","Propaganda dan kapitalisme dari kacamata Indonesia."]];
+/* ============================================================
+   CURIOSITY CORNER · video gabut tanpa jadwal (semua link dicek asli)
+   ============================================================ */
+const WV_NAME = "Curiosity Corner";
+const WV_CATS = {
+  perempuan:{nm:"Perempuan & tubuhnya", e:"🌸", c:"#FF4F8B", s:"#FFE3EE"},
+  pediatri:{nm:"Anak & tumbuh kembang", e:"🧸", c:"#E0A400", s:"#FFF4D1"},
+  psikologi:{nm:"Psikologi & pikiran", e:"🧠", c:"#9B5CF6", s:"#EFE5FF"},
+  relasi:{nm:"Cinta & relasi", e:"💞", c:"#E5487A", s:"#FDE6EF"},
+  filsafat:{nm:"Filsafat & makna hidup", e:"🏛️", c:"#5B6CFF", s:"#E6E9FF"},
+  keuangan:{nm:"Uang & ekonomi", e:"💸", c:"#0E9F77", s:"#D9F7EC"},
+  mindset:{nm:"Mindset & cara belajar", e:"🌱", c:"#11B3A3", s:"#D9F7F3"},
+  medis:{nm:"Dunia dokter", e:"🩺", c:"#2F80ED", s:"#E3EEFD"},
+  unik:{nm:"Hal yang jarang orang tahu", e:"🔭", c:"#7A5AF8", s:"#ECE7FE"}
+};
+let WV_TH = null, wvThLoading = false;
+function wvThumbs(){
+  if (view !== "wawasan") return;
+  if (WV_TH) { document.querySelectorAll("img[data-wvth][hidden]").forEach(i => { const u = WV_TH[i.dataset.wvth]; if (u) { i.src = u; i.hidden = false; } }); return; }
+  if (wvThLoading) return; wvThLoading = true;
+  fetch("wv-thumbs.json").then(r => r.ok ? r.json() : null).then(j => { if (j) { WV_TH = j; wvThumbs(); } }).catch(() => {});
+}
+function WV(){ if (!S.wv || typeof S.wv !== "object") S.wv = {}; ["done","fav"].forEach(k => { if (!S.wv[k] || typeof S.wv[k] !== "object") S.wv[k] = {}; }); return S.wv; }
+ui.wv = {cat:"all", lang:"all", hide:false, fav:false, q:"", pick:null};
+function wvFiltered(){
+  const f = ui.wv, X = WV(), q = f.q.trim().toLowerCase();
+  return WV_LIST.filter(v => (f.cat === "all" || v[0] === f.cat) && (f.lang === "all" || v[5] === f.lang) && (!f.hide || !X.done[v[1]]) && (!f.fav || X.fav[v[1]]) && (!q || (v[2]+" "+v[3]+" "+v[6]).toLowerCase().includes(q)));
+}
+function wvCard(v, big){
+  const X = WV(), C = WV_CATS[v[0]], done = !!X.done[v[1]], fav = !!X.fav[v[1]], url = "https://www.youtube.com/watch?v="+v[1];
+  return '<article class="wv-card'+(done?" done":"")+(big?" big":"")+'" style="--cc:'+C.c+';--cs:'+C.s+'">'+
+    '<a class="wv-thumb" href="'+url+'" target="_blank" rel="noopener" data-wvopen="'+v[1]+'"><img alt="" data-wvth="'+v[1]+'"'+(WV_TH&&WV_TH[v[1]]?' src="'+WV_TH[v[1]]+'"':' hidden')+'><span class="wv-len">'+esc(v[4])+'</span><span class="wv-play">▶</span></a>'+
+    '<div class="wv-body"><div class="row wv-tags"><span class="wv-cat">'+C.e+' '+esc(C.nm)+'</span><span class="wv-lang">'+(v[5]==="id"?"Indonesia":"English")+'</span></div>'+
+    '<a class="wv-title" href="'+url+'" target="_blank" rel="noopener" data-wvopen="'+v[1]+'">'+esc(v[2])+'</a>'+
+    '<span class="small muted">'+esc(v[3])+'</span>'+
+    '<p class="wv-note">'+esc(v[6])+'</p>'+
+    '<div class="row wv-foot"><label class="wv-chk"><input type="checkbox" data-wvdone="'+v[1]+'"'+(done?" checked":"")+'> Sudah ditonton</label><button class="wv-fav'+(fav?" on":"")+'" data-act="wvfav" data-id="'+v[1]+'" aria-label="Favorit" title="Simpan ke favorit">'+(fav?"♥":"♡")+'</button></div></div></article>';
+}
+function vWawasan(){
+  const X = WV(), f = ui.wv, list = wvFiltered(), nDone = WV_LIST.filter(v => X.done[v[1]]).length, nFav = Object.keys(X.fav).filter(k => X.fav[k]).length;
+  const pct = Math.round(nDone / WV_LIST.length * 100);
+  const pick = f.pick && WV_LIST.find(v => v[1] === f.pick);
+  const cnt = c => WV_LIST.filter(v => v[0] === c).length;
+  const chip = (k, lab, on, extra) => '<button class="wv-chip'+(on?" on":"")+'" data-act="wvf" data-k="'+k+'"'+(extra||"")+'>'+lab+'</button>';
+  return ''+
+  '<div class="wv-hero"><div class="stack" style="gap:8px">'+
+    '<span class="eyebrow" style="color:#8A5FD1">Tanpa jadwal · tonton pas lagi kosong</span>'+
+    '<h1 class="wv-h1">'+WV_NAME+' <span>✦</span></h1>'+
+    '<p class="wv-sub">Pojok kecil buat rasa penasaranmu. Lagi gabut? Ambil satu video, seduh teh, dan biarkan pikiranmu jalan-jalan. Ada '+WV_LIST.length+' video pilihan, campur English dan Indonesia.</p>'+
+    '<div class="row"><button class="btn solid wv-dice" data-act="wvrand">🎲 Pilihkan satu buat aku</button><span class="small muted">'+nDone+' dari '+WV_LIST.length+' sudah ditonton · '+nFav+' favorit</span></div>'+
+    '<div class="wv-bar"><i style="width:'+pct+'%"></i></div>'+
+  '</div></div>'+
+  (pick ? '<div class="wv-pick"><div class="row" style="justify-content:space-between"><b>✨ Video pilihan semesta buat kamu</b><div class="row"><button class="btn tiny" data-act="wvrand">Acak lagi</button><button class="btn tiny" data-act="wvunpick">Tutup</button></div></div>'+wvCard(pick, true)+'</div>' : '')+
+  '<div class="wv-filters"><div class="wv-chips">'+chip("all","Semua · "+WV_LIST.length, f.cat==="all", ' data-v="all"')+Object.keys(WV_CATS).map(c => chip("cat", WV_CATS[c].e+" "+esc(WV_CATS[c].nm)+" · "+cnt(c), f.cat===c, ' data-v="'+c+'"')).join("")+'</div>'+
+  '<div class="row wv-tools"><input id="wvQ" type="search" placeholder="Cari judul, channel, topik…" value="'+esc(f.q)+'">'+
+    chip("lang","Semua bahasa", f.lang==="all", ' data-v="all"')+chip("lang","🇬🇧 English", f.lang==="en", ' data-v="en"')+chip("lang","🇮🇩 Indonesia", f.lang==="id", ' data-v="id"')+
+    chip("hide","Sembunyikan yang sudah", f.hide)+chip("fav","♥ Favorit", f.fav)+'</div></div>'+
+  '<p class="small muted" id="wvCount">'+list.length+' video</p>'+
+  (list.length ? '<div class="wv-grid" id="wvGrid">'+list.map(v => wvCard(v)).join("")+'</div>' : '<div class="card"><p class="muted">Belum ada yang cocok. Coba ganti filternya ya.</p></div>')+
+  '<p class="small muted" style="margin-top:18px">Semua link sudah dicek masih aktif per 9 Nov 2026. Klik gambar atau judul untuk buka di YouTube. Kalau ada yang nggak nyambung atau kurang dalam, bilang aja nanti diganti.</p>';
+}
+document.addEventListener("click", e => {
+  const el = e.target.closest("[data-act]"); if (!el || !/^wv/.test(el.dataset.act)) return;
+  const f = ui.wv, X = WV(), a = el.dataset.act;
+  if (a === "wvf") { const k = el.dataset.k, v = el.dataset.v;
+    if (k === "all") f.cat = "all"; else if (k === "cat") f.cat = (f.cat === v ? "all" : v); else if (k === "lang") f.lang = v; else if (k === "hide") f.hide = !f.hide; else if (k === "fav") f.fav = !f.fav;
+    render(); }
+  if (a === "wvrand") { let pool = WV_LIST.filter(v => (f.cat === "all" || v[0] === f.cat) && (f.lang === "all" || v[5] === f.lang) && !X.done[v[1]] && v[1] !== f.pick); if (!pool.length) pool = WV_LIST.filter(v => !X.done[v[1]]); if (!pool.length) { toast("Wow, semua video sudah kamu tonton! 🎉"); return; } f.pick = pool[Math.floor(Math.random()*pool.length)][1]; render(); window.scrollTo({top:0, behavior:"smooth"}); }
+  if (a === "wvunpick") { f.pick = null; render(); }
+  if (a === "wvfav") { const id = el.dataset.id; if (X.fav[id]) delete X.fav[id]; else X.fav[id] = todayISO(); save(); render(); }
+});
+document.addEventListener("change", e => {
+  const id = e.target.dataset && e.target.dataset.wvdone; if (!id) return;
+  const X = WV(); if (e.target.checked) { X.done[id] = todayISO(); toast("Satu wawasan baru masuk kepala ✦"); } else delete X.done[id];
+  save(); const y = window.scrollY; render(); window.scrollTo({top:y});
+});
+document.addEventListener("input", e => {
+  if (e.target.id !== "wvQ") return; ui.wv.q = e.target.value;
+  const list = wvFiltered(), g = $("#wvGrid"), c = $("#wvCount");
+  if (c) c.textContent = list.length+" video";
+  if (g) { g.innerHTML = list.map(v => wvCard(v)).join(""); wvThumbs(); } else render();
+});
 
 /* routing */
 function go(v){ if (location.hash !== "#"+v) location.hash = v; else { view = v; render(); window.scrollTo({top:0}); } }
