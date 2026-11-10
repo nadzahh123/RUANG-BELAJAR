@@ -435,6 +435,17 @@ nav.tabs a.tab-eng[aria-current="page"]{color:#fff;background:var(--pop)}
 .eng-home>*{position:relative}
 .eng-home>span:first-child{display:grid;gap:2px}
 .eng-home .btn{border-color:#fff;color:#fff;background:transparent}
+
+/* PDF viewer: baca PDF di dalam web tanpa unduh */
+#pdfv{position:fixed;inset:0;z-index:999;background:#3a3358;display:none;flex-direction:column}
+#pdfv.on{display:flex}
+#pdfv .pv-bar{display:flex;align-items:center;gap:8px;padding:8px 12px;background:var(--paper);border-bottom:1px solid var(--line)}
+#pdfv .pv-bar b{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:14px}
+#pdfv .pv-bar .small{white-space:nowrap}
+#pdfv .pv-pages{flex:1;overflow:auto;-webkit-overflow-scrolling:touch;padding:12px 8px;display:flex;flex-direction:column;align-items:center;gap:10px}
+#pdfv .pv-pg{background:#fff;box-shadow:0 2px 10px rgba(0,0,0,.35);max-width:100%}
+#pdfv .pv-pg canvas{display:block;width:100%;height:auto}
+#pdfv .pv-msg{color:#fff;padding:30px 16px;text-align:center}
 </style>
 
 <header class="top">
@@ -996,9 +1007,9 @@ function vLite(){
   const {lid, lite:k} = ui.ws, l = lecById(lid), L = LITE[k-1], dn = liteDone(lid, k);
   const sums = allSummaries().filter(s => s.lecture === lid), qz = allQuizzes().filter(q => q.lecture === lid);
   let sumBtn = sums.length ? '<a class="btn solid" href="#rangkuman" data-act="opensum" data-id="'+sums[0].id+'">📖 Buka rangkuman</a>' : '<a class="btn solid" href="#rangkuman" data-act="wsclose">📖 Buka tab Rangkuman</a>';
-  const pdfN = 'Rangkuman-Repro-KUL-'+l.no+'.pdf', pdf = l.block === "repro" && downloadsCard().includes('files/'+pdfN) ? '<a class="btn tiny dl" data-name="'+pdfN+'" href="files/'+pdfN+'" target="_blank" rel="noopener" download>⬇ PDF rangkuman</a>' : '';
-  const bkN = 'Buku-Belajar-Repro-KUL-'+l.no+'.pdf', bk = l.block === "repro" && downloadsCard().includes('files/'+bkN) ? '<a class="btn tiny dl" data-name="'+bkN+'" href="files/'+bkN+'" target="_blank" rel="noopener" download>📘 Buku belajar</a>' : '';
-  if (!sums.length && pdf) sumBtn = pdf.replace('btn tiny dl', 'btn solid dl');
+  const pdfN = 'Rangkuman-Repro-KUL-'+l.no+'.pdf', pdf = l.block === "repro" && downloadsCard().includes('files/'+pdfN) ? '<a class="btn tiny view" data-name="'+pdfN+'" data-title="Rangkuman KUL '+l.no+'" href="files/'+pdfN+'">📄 Baca PDF rangkuman</a>' : '';
+  const bkN = 'Buku-Belajar-Repro-KUL-'+l.no+'.pdf', bk = l.block === "repro" && downloadsCard().includes('files/'+bkN) ? '<a class="btn tiny view" data-name="'+bkN+'" data-title="Buku Belajar KUL '+l.no+'" href="files/'+bkN+'">📘 Baca buku belajar</a>' : '';
+  if (!sums.length && pdf) sumBtn = pdf.replace('btn tiny view', 'btn solid view');
   let body = '';
   if (k === 1) body = '<div class="row">'+sumBtn+bk+(l.ppt?'<a class="btn tiny" href="'+esc(l.ppt)+'" target="_blank" rel="noopener">PPT ↗</a>':'')+'</div>'+
     '<details class="card" style="padding:10px 12px"><summary style="cursor:pointer;font-weight:700">Bingung? Prompt GPT siap salin</summary><pre class="small" style="white-space:pre-wrap;margin:8px 0;background:var(--soft);padding:10px;border-radius:8px;max-height:200px;overflow:auto">'+esc(promptFor(l)+"\n\nMateri: "+l.title+". Bagian yang aku bingung: ...")+'</pre></details>';
@@ -1761,9 +1772,91 @@ function downloadsCard(){
   ];
   return dlCard("Rangkuman (PDF) &amp; drill soal", "Kerjakan Drill Soal dulu, baru cocokkan dengan Drill Pembahasan.", F);
 }
+
+/* Baca PDF langsung di web (PDF.js), tanpa harus diunduh. */
+const PV = { lib:null, doc:null, task:null, obs:null, scale:1 };
+function pvLoadLib(){
+  if (PV.lib) return Promise.resolve(PV.lib);
+  return new Promise((res, rej) => {
+    const sc = document.createElement("script");
+    sc.src = "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js";
+    sc.onload = () => { const L = window.pdfjsLib; if (!L) return rej(new Error("pdfjs")); L.GlobalWorkerOptions.workerSrc = "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js"; PV.lib = L; res(L); };
+    sc.onerror = () => rej(new Error("pdfjs"));
+    document.head.appendChild(sc);
+  });
+}
+function pvEl(){
+  let el = document.getElementById("pdfv");
+  if (el) return el;
+  el = document.createElement("div"); el.id = "pdfv";
+  el.innerHTML = '<div class="pv-bar"><button class="btn tiny" data-pv="close">✕ Tutup</button><b class="pv-t"></b><span class="small muted pv-n"></span><button class="btn tiny" data-pv="out">−</button><button class="btn tiny" data-pv="in">+</button></div><div class="pv-pages"></div>';
+  document.body.appendChild(el);
+  el.addEventListener("click", e => { const b = e.target.closest("[data-pv]"); if (!b) return; const a = b.dataset.pv;
+    if (a === "close") pvClose(); else { PV.scale = Math.min(2.5, Math.max(0.6, PV.scale + (a === "in" ? 0.25 : -0.25))); pvLayout(); } });
+  el.querySelector(".pv-pages").addEventListener("scroll", pvCount, {passive:true});
+  return el;
+}
+function pvClose(){
+  const el = document.getElementById("pdfv"); if (el) { el.classList.remove("on"); el.querySelector(".pv-pages").innerHTML = ""; }
+  if (PV.obs) PV.obs.disconnect(); if (PV.task) try { PV.task.destroy(); } catch(_) {}
+  PV.doc = PV.task = PV.obs = null; document.body.style.overflow = "";
+}
+function pvCount(){
+  const el = document.getElementById("pdfv"); if (!el || !PV.doc) return;
+  const box = el.querySelector(".pv-pages"), mid = box.scrollTop + box.clientHeight / 3;
+  let n = 1; box.querySelectorAll(".pv-pg").forEach((p, i) => { if (p.offsetTop <= mid) n = i + 1; });
+  el.querySelector(".pv-n").textContent = n + " / " + PV.doc.numPages;
+}
+async function pvRender(div){
+  if (div.dataset.done || !PV.doc) return; div.dataset.done = "1";
+  try {
+    const pg = await PV.doc.getPage(+div.dataset.p), w = div.clientWidth || 600;
+    const vp1 = pg.getViewport({scale:1}), dpr = Math.min(window.devicePixelRatio || 1, 2);
+    const vp = pg.getViewport({scale: (w / vp1.width) * dpr});
+    const c = document.createElement("canvas"); c.width = vp.width; c.height = vp.height;
+    await pg.render({canvasContext: c.getContext("2d"), viewport: vp}).promise;
+    div.innerHTML = ""; div.appendChild(c); div.style.minHeight = "";
+  } catch (e) { div.dataset.done = ""; }
+}
+function pvLayout(){
+  const el = pvEl(), box = el.querySelector(".pv-pages"); if (!PV.doc) return;
+  const keep = box.scrollTop / (box.scrollHeight || 1);
+  if (PV.obs) PV.obs.disconnect();
+  const avail = Math.min(box.clientWidth - 16, 900) * PV.scale;
+  PV.ratio = PV.ratio || 1.414;
+  box.innerHTML = "";
+  for (let i = 1; i <= PV.doc.numPages; i++) {
+    const d = document.createElement("div"); d.className = "pv-pg"; d.dataset.p = i;
+    d.style.width = avail + "px"; d.style.maxWidth = PV.scale > 1 ? "none" : "100%"; d.style.minHeight = (avail * PV.ratio) + "px";
+    box.appendChild(d);
+  }
+  PV.obs = new IntersectionObserver(es => es.forEach(x => { if (x.isIntersecting) pvRender(x.target); }), {root: box, rootMargin: "800px 0px"});
+  box.querySelectorAll(".pv-pg").forEach(d => PV.obs.observe(d));
+  box.scrollTop = keep * box.scrollHeight; pvCount();
+}
+async function openPdf(name, title){
+  const el = pvEl(), box = el.querySelector(".pv-pages");
+  pvClose(); el.classList.add("on"); document.body.style.overflow = "hidden";
+  el.querySelector(".pv-t").textContent = title || name; el.querySelector(".pv-n").textContent = "";
+  box.innerHTML = '<div class="pv-msg">Membuka PDF…</div>'; PV.scale = 1;
+  try {
+    const L = await pvLoadLib();
+    PV.task = L.getDocument({url: "files/" + name});
+    PV.doc = await PV.task.promise;
+    const p1 = await PV.doc.getPage(1), v = p1.getViewport({scale:1}); PV.ratio = v.height / v.width;
+    pvLayout();
+  } catch (e) {
+    box.innerHTML = '<div class="pv-msg">PDF belum bisa dibuka di sini. <a class="btn tiny solid" href="files/' + name + '" target="_blank" rel="noopener">Buka di tab baru</a></div>';
+  }
+}
+document.addEventListener("click", e => {
+  const a = e.target.closest && e.target.closest("a.view"); if (!a) return;
+  e.preventDefault(); e.stopPropagation(); openPdf(a.dataset.name, a.dataset.title);
+}, true);
+document.addEventListener("keydown", e => { if (e.key === "Escape" && document.getElementById("pdfv")?.classList.contains("on")) pvClose(); });
 function dlCard(h, sub, F){
   return '<div class="card" id="unduh" style="display:grid;gap:10px"><div><span class="eyebrow">Unduh file</span><h3>'+h+'</h3><p class="small muted">'+sub+'</p></div>'+
-    '<div class="grid3">'+F.map(f => '<div class="ms" style="display:grid;gap:6px"><b>'+f[0]+'</b><p class="small muted" style="margin:0">'+f[1]+'</p><div class="row" style="gap:6px"><a class="btn tiny solid dl" data-name="'+f[2]+'.pdf" href="files/'+f[2]+'.pdf" target="_blank" rel="noopener" download>PDF · '+f[3]+'</a>'+(f[4]?'<a class="btn tiny dl" data-name="'+f[2]+'.docx" href="files/'+f[2]+'.docx" download>Word · '+f[4]+'</a>':'')+'</div></div>').join("")+'</div></div>';
+    '<div class="grid3">'+F.map(f => '<div class="ms" style="display:grid;gap:6px"><b>'+f[0]+'</b><p class="small muted" style="margin:0">'+f[1]+'</p><div class="row" style="gap:6px"><a class="btn tiny solid view" data-name="'+f[2]+'.pdf" data-title="'+f[0]+'" href="files/'+f[2]+'.pdf">👁 Baca</a><a class="btn tiny dl" data-name="'+f[2]+'.pdf" href="files/'+f[2]+'.pdf" target="_blank" rel="noopener" download>PDF · '+f[3]+'</a>'+(f[4]?'<a class="btn tiny dl" data-name="'+f[2]+'.docx" href="files/'+f[2]+'.docx" download>Word · '+f[4]+'</a>':'')+'</div></div>').join("")+'</div></div>';
 }
 /* Di artifact claude.ai, unduhan lewat izin "downloads"; di GitHub Pages pakai link biasa. */
 let DLNS = null;
