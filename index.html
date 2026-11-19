@@ -486,11 +486,11 @@ nav.tabs a.tab-eng[aria-current="page"]{color:#fff;background:var(--pop)}
    DATA BAWAAN
    ============================================================ */
 const STEPS = [
-  {n:1, nm:"Tengkurap", kid:"bayi mulai angkat kepala", what:"Scanning PPT + tanya-tanya ke GPT + corat-coret inti langsung di PPT", color:"var(--s1)", off:-1, gap:0},
+  {n:1, nm:"Tengkurap", kid:"bayi mulai angkat kepala", what:"Scanning PPT + pahami keseluruhan isi PPT + tanya-tanya ke GPT + corat-coret inti langsung di PPT", color:"var(--s1)", off:-1, gap:0},
   {n:2, nm:"Duduk Manis", kid:"udah bisa duduk sendiri", what:"Baca ulang, pahami, lalu tulis sendiri di buku dengan close book", color:"var(--s2)", off:0, gap:3},
   {n:3, nm:"Merangkak", kid:"mulai jelajah dunia", what:"Nonton YouTube lalu recall: jelaskan ulang tanpa lihat catatan", color:"var(--s3)", off:1, gap:2},
   {n:4, nm:"Berdiri", kid:"berdiri pakai kaki sendiri", what:"Latsol 20 soal ala UAB", color:"var(--s4)", off:3, gap:3},
-  {n:5, nm:"Lari-lari", kid:"siap lari ke UAB", what:"Baca ulang rangkuman + latsol lagi (soal yang salah dulu)", color:"var(--s5)", off:7, gap:7}
+  {n:5, nm:"Lari-lari", kid:"siap lari ke UAB", what:"Review ulang materi (PPT + rangkuman) + latsol lagi (soal yang salah dulu)", color:"var(--s5)", off:7, gap:7}
 ];
 
 const BLOCKS_DEFAULT = [
@@ -972,9 +972,9 @@ function toast(t){ const el = document.createElement("div"); el.className="toast
    Yang telat hanya tahap pertama yang belum selesai; tahap sesudahnya ikut bergeser. Lalu diratakan maks maxPerDay per hari. */
 /* MODE RINGAN: 3 tahap per KUL, maks 2 hal per hari, tanpa label "dikejar" */
 const LITE = [
-  {k:1, nm:"Baca & Paham", steps:[1,2,3], color:"var(--s1)", off:0, gap:0, what:"Baca rangkuman KUL ini selama 25 menit. Tandai 1–3 hal yang bikin bingung, tanya GPT kalau perlu. Gak harus selesai sekali duduk."},
+  {k:1, nm:"Baca & Paham", steps:[1,2,3], color:"var(--s1)", off:0, gap:0, what:"Baca rangkuman KUL ini selama 25 menit dan pahami keseluruhan PPT-nya. Tandai 1–3 hal yang bikin bingung, tanya GPT kalau perlu. Gak harus selesai sekali duduk."},
   {k:2, nm:"Latsol", steps:[4], color:"var(--s4)", gap:2, what:"Kerjakan latsol KUL ini. Salah itu bagus, justru dari situ nempelnya."},
-  {k:3, nm:"Ulang yang salah", steps:[5], color:"var(--s5)", gap:5, what:"Buka lagi soal yang tadi salah, lalu baca bagian rangkumannya. Cukup itu aja."}
+  {k:3, nm:"Ulang yang salah", steps:[5], color:"var(--s5)", gap:5, what:"Review ulang materi KUL ini (rangkuman + PPT), lalu buka lagi soal yang tadi salah dan baca bagian rangkumannya."}
 ];
 function liteDone(lid, k){ return LITE[k-1].steps.every(n => stepOf(lid, n).done); }
 function liteQueue(){
@@ -1014,7 +1014,7 @@ function vLite(){
   if (k === 1) body = '<div class="row">'+sumBtn+bk+(l.ppt?'<a class="btn tiny" href="'+esc(l.ppt)+'" target="_blank" rel="noopener">PPT ↗</a>':'')+'</div>'+
     '<details class="card" style="padding:10px 12px"><summary style="cursor:pointer;font-weight:700">Bingung? Prompt GPT siap salin</summary><pre class="small" style="white-space:pre-wrap;margin:8px 0;background:var(--soft);padding:10px;border-radius:8px;max-height:200px;overflow:auto">'+esc(promptFor(l)+"\n\nMateri: "+l.title+". Bagian yang aku bingung: ...")+'</pre></details>';
   else if (k === 2) body = (qz.length ? '<div class="grid2" style="gap:8px">'+qz.map(quizCard).join("")+'</div>' : '<div class="empty small">Latsol KUL ini masih disiapin. Tandai selesai aja dulu, nanti muncul lagi.</div>');
-  else body = '<div class="row">'+sumBtn+(qz.length?'<a class="btn" href="#latsol" data-act="openquiz" data-id="'+qz[0].id+'">✏️ Latsol ulang</a>':'')+'</div>';
+  else body = '<div class="row">'+sumBtn+bk+(l.ppt?'<a class="btn tiny" href="'+esc(l.ppt)+'" target="_blank" rel="noopener">PPT ↗</a>':'')+(qz.length?'<a class="btn" href="#latsol" data-act="openquiz" data-id="'+qz[0].id+'">✏️ Latsol ulang</a>':'')+'</div>';
   return '<div class="ws-back" data-act="wsclose-bg"><div class="ws" role="dialog" aria-modal="true" aria-label="'+esc(L.nm)+'">'+
     '<div class="ws-head" style="background:'+L.color+'"><div><span class="eyebrow" style="color:rgba(255,255,255,.85)">KUL '+l.no+' · '+esc(l.title)+'</span><h2 style="color:#fff">'+L.k+'. '+esc(L.nm)+'</h2></div><button class="btn tiny" data-act="wsclose" aria-label="Tutup">✕</button></div>'+
     '<div class="ws-body"><p>'+esc(L.what)+'</p><div class="card stack" style="padding:12px;text-align:center"><b class="small">Timer fokus</b><div id="timerDisp" class="mono" style="font-size:2.4rem;font-weight:700">'+timerText()+'</div><div class="row" style="justify-content:center">'+[15,25].map(m => '<button class="btn tiny" data-act="timer" data-m="'+m+'">'+m+' menit</button>').join("")+'</div></div>'+body+'</div>'+
@@ -1318,11 +1318,11 @@ function wsData(lid, n){ S.ws = S.ws||{}; S.ws[lid] = S.ws[lid]||{}; S.ws[lid][n
 function wsPeek(lid, n){ return ((S.ws||{})[lid]||{})[n] || {chk:{}, note:""}; }
 
 const WS_TASKS = {
-  1:["Lihat sekilas semua slide","Tandai yang bingung","Tanya GPT yang bingung"],
+  1:["Lihat sekilas semua slide","Tandai yang bingung","Tanya GPT yang bingung","Pahami keseluruhan PPT"],
   2:["Baca sampai paham","Tutup, tulis ulang sendiri","Cocokkan, lengkapi"],
   3:["Tonton 1 video","Jelaskan ulang 2 menit","Cek ke rangkuman"],
   4:["Kerjakan 20 soal","Baca pembahasan","Catat jebakan"],
-  5:["Baca bagian Ringkas & Jebakan","Ulang soal yang salah","Nilai pahammu (1–5)"]
+  5:["Baca bagian Ringkas & Jebakan","Ulang soal yang salah","Nilai pahammu (1–5)","Review ulang semua materi"]
 };
 function wsHint(l, n){
   if (l.block === "repro") return n === 1 ? (discOf(l) === "radiologi" ? "mis. kenapa usia kehamilan trimester 1 paling akurat dari CRL?" : "mis. kenapa solusio plasenta nyeri tapi plasenta previa tidak?") : n === 4 ? "mis. tertukar abortus insipiens vs inkomplet" : WS_NOTE[n][1];
@@ -1757,7 +1757,7 @@ function downloadsCard(){
     ["Rangkuman KUL 22", "Kelainan Genitalia", "Rangkuman-Repro-KUL-22", "1,7 MB", ""],
     ["Rangkuman Panduan Resmi", "Modul blok, Buku KIA 2024, WHO ANC 2016 + peta nomor KUL", "Rangkuman-Repro-Panduan-Resmi", "0,7 MB", ""]
   ]) + dlCard("Buku Belajar dari Nol (PDF)", "Versi buku: dijelaskan dari dasar, semua istilah diberi arti, ada analogi, jebakan, dan soal + kunci di bab akhir. Rangkuman di atas tetap ada.", [
-    ["Buku Belajar KUL 1", "ANC dan Infeksi pada Kehamilan (169 halaman)", "Buku-Belajar-Repro-KUL-1", "6,1 MB", ""],
+    ["Buku Belajar KUL 1", "ANC dan Infeksi pada Kehamilan (171 halaman)", "Buku-Belajar-Repro-KUL-1", "6,1 MB", ""],
     ["Buku Belajar KUL 2", "Perdarahan Kehamilan Muda (116 halaman)", "Buku-Belajar-Repro-KUL-2", "3,5 MB", ""]
   ]) + dlCard("Buku panduan resmi (PDF asli)", "Sumber resmi untuk ANC dan KIA. Buku KIA dibagi 2 file supaya ringan diunduh.", [
     ["Buku KIA 2024 (bagian 1)", "Kemenkes RI, Buku Kesehatan Ibu dan Anak", "Buku-KIA-2024-bag1", "14,1 MB", ""],
