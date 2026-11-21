@@ -540,6 +540,17 @@ const LECTURES_DEFAULT = [
   {id:"r18", block:"repro", no:18, title:"Tumor dan Keganasan Payudara (Mammae): Fibroadenoma, Hipomastia/Hipoplasia, Ginekomastia, dan Karsinoma Mammae", en:"breast tumor fibroadenoma gynecomastia breast cancer mastectomy TNM staging", dosen:"dr. Bambang Rishardana, SpB, FINACS", tent:true},
   {id:"r21", block:"repro", no:21, title:"Infeksi Genitalia (Keputihan, Vaginosis Bakterial, Kandidiasis, Trikomoniasis, Servisitis, Penyakit Radang Panggul, Toksoplasmosis)", en:"vaginitis bacterial vaginosis candidiasis trichomoniasis cervicitis pelvic inflammatory disease", tent:true},
   {id:"r22", block:"repro", no:22, title:"Kelainan Genitalia (Endometriosis, Adenomiosis, Hiperplasia Endometrium, Prolaps Organ Panggul, Fistula, Korpus Alienum, Himen Imperforata, Kelainan Duktus Müller)", en:"endometriosis adenomyosis endometrial hyperplasia pelvic organ prolapse fistula Mullerian anomalies", tent:true}
+  ,{id:"r0", block:"repro", no:0, disc:"dasar", title:"Ilmu Dasar Reproduksi (Anatomi, Histologi, Embriologi, Fisiologi)", en:"reproductive anatomy histology embryology physiology", tent:true},
+  {id:"r14", block:"repro", no:14, title:"Kelainan Pubertas, Gangguan Haid, dan Infertilitas", en:"precocious delayed puberty amenorrhea abnormal uterine bleeding infertility", tent:true},
+  {id:"r15", block:"repro", no:15, title:"Obstetri dan Ginekologi Sosial", en:"maternal mortality social obstetrics", tent:true},
+  {id:"r16", block:"repro", no:16, title:"Kontrasepsi (Keluarga Berencana)", en:"contraception family planning", tent:true},
+  {id:"r17", block:"repro", no:17, title:"Gangguan Masa Nifas dan Laktasi", en:"puerperium disorders lactation mastitis postpartum depression", tent:true},
+  {id:"r19", block:"repro", no:19, disc:"farmako", title:"Farmakologi Gangguan Reproduksi", en:"pharmacology reproductive disorders clomiphene GnRH", tent:true},
+  {id:"r20", block:"repro", no:20, disc:"farmako", title:"Farmakologi pada Kehamilan dan Laktasi", en:"drugs in pregnancy lactation teratogen", tent:true},
+  {id:"r23", block:"repro", no:23, title:"Tumor Genitalia Eksterna", en:"vulvar vaginal cervical tumor", tent:true},
+  {id:"r24", block:"repro", no:24, title:"Tumor Genitalia Interna", en:"endometrial ovarian tumor gestational trophoblastic disease", tent:true},
+  {id:"r25", block:"repro", no:25, disc:"pa", title:"Patologi Anatomi Sistem Reproduksi", en:"pathology female reproductive system", tent:true},
+  {id:"r26", block:"repro", no:26, disc:"mikro", title:"Mikrobiologi dan Parasitologi Sistem Reproduksi", en:"microbiology sexually transmitted infections Gardnerella Toxoplasma", tent:true}
 ];
 
 const QUOTES = [
@@ -958,7 +969,9 @@ function lecs(){ return S.lectures.filter(l => l.block === S.activeBlock).sort((
 function lecById(id){ return S.lectures.find(l => l.id === id); }
 function stepOf(lid, n){ return ((S.steps[lid]||{})[n]) || {done:false, reps:0, last:null}; }
 function allSummaries(){ return SUMMARIES_BUILTIN.concat(extra.summaries); }
-function allQuizzes(){ return QUIZ_BUILTIN.concat(extra.quizzes); }
+/* soal kating UAB Repro per KUL: file kating-repro.json */
+let KAT_REPRO = [];
+function allQuizzes(){ return QUIZ_BUILTIN.concat(KAT_REPRO, extra.quizzes); }
 /* tiap KUL/rangkuman/latsol milik satu blok; yang tanpa KUL = materi lama Blok Uro */
 function blockOfLid(lid){ const l = lecById(lid); if (l) return l.block; const d = LECTURES_DEFAULT.find(x => x.id === lid); return d ? d.block : (/^r\d/.test(lid||"") ? "repro" : "uro"); }
 function inBlock(x){ return blockOfLid(x.lecture) === S.activeBlock; }
@@ -3948,6 +3961,7 @@ window.addEventListener("hashchange", fromHash);
   fromHash();
   setInterval(checkReminder, 30000); setTimeout(checkReminder, 1500);
   initDb();
+  fetch("kating-repro.json").then(r => r.ok ? r.json() : null).then(j => { if (Array.isArray(j)) { KAT_REPRO = j; const y = window.scrollY; render(); window.scrollTo({top:y}); } }).catch(() => {});
 })();
 </script>
 
