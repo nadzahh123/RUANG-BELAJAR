@@ -206,6 +206,11 @@ details.more[open]>summary::before{content:"– "}
 .box.key{background:var(--peri-soft)}
 .box.trap{background:var(--pop-soft)}
 .box.clin{background:var(--aqua-soft)}
+.box.dsr{background:var(--sun-soft)}
+.box.dsr dl{margin:6px 0 0;display:grid;gap:6px}
+.box.dsr dt{font-weight:700}
+.box.dsr dd{margin:0 0 0 10px}
+.box.prin{background:var(--aqua-soft);border-left:4px solid var(--ok)}
 .box b.lab{font-family:var(--f-mono);font-size:.72rem;letter-spacing:.1em;text-transform:uppercase}
 .side{position:sticky;top:120px;display:grid;gap:12px;max-height:calc(100vh - 140px);overflow:auto}
 .toc button{display:block;width:100%;text-align:left;background:none;border:0;padding:5px 6px;border-radius:6px;font:inherit;font-size:.85rem;color:var(--ink);cursor:pointer}
@@ -971,7 +976,8 @@ function stepOf(lid, n){ return ((S.steps[lid]||{})[n]) || {done:false, reps:0, 
 function allSummaries(){ return SUMMARIES_BUILTIN.concat(extra.summaries); }
 /* soal kating UAB Repro per KUL: file kating-repro.json */
 let KAT_REPRO = [];
-function allQuizzes(){ return QUIZ_BUILTIN.concat(KAT_REPRO, extra.quizzes); }
+let BUATAN_REPRO = [];
+function allQuizzes(){ return QUIZ_BUILTIN.concat(KAT_REPRO, BUATAN_REPRO, extra.quizzes); }
 /* tiap KUL/rangkuman/latsol milik satu blok; yang tanpa KUL = materi lama Blok Uro */
 function blockOfLid(lid){ const l = lecById(lid); if (l) return l.block; const d = LECTURES_DEFAULT.find(x => x.id === lid); return d ? d.block : (/^r\d/.test(lid||"") ? "repro" : "uro"); }
 function inBlock(x){ return blockOfLid(x.lecture) === S.activeBlock; }
@@ -1960,7 +1966,7 @@ function vLatsol(){
     const pics = (q.imgs||[]).map(u => '<img class="qimg" loading="lazy" src="'+esc(u)+'" alt="Gambar soal">').join("");
     const srcLine = q.src ? '<span class="small muted">'+esc(q.src)+((q.also||[]).length?' · juga keluar di '+esc(q.also.join(", ")):'')+'</span>' : '';
     const open = !(q.o||[]).length;
-    return '<article class="card q" id="q'+i+'"><span class="eyebrow">Soal '+(i+1)+(graded&&q.topic?' · '+esc(q.topic):'')+'</span>'+srcLine+fig+'<p class="stem">'+esc(q.stem)+'</p>'+pics+(open?'<p class="small muted">Soal ini tidak punya pilihan jawaban di file aslinya. Jawab dalam kepala, lalu cek setelah dikumpulkan.</p>':'')+'<div class="opts">'+(q.o||[]).map((o,j) => {
+    return '<article class="card q" id="q'+i+'"><span class="eyebrow">Soal '+(i+1)+(graded&&q.topic?' · '+esc(q.topic):'')+'</span>'+(q.latar?'<span class="chip aqua" style="justify-self:start">Latar: '+esc(q.latar)+'</span>':'')+srcLine+fig+'<p class="stem">'+esc(q.stem)+'</p>'+pics+(open?'<p class="small muted">Soal ini tidak punya pilihan jawaban di file aslinya. Jawab dalam kepala, lalu cek setelah dikumpulkan.</p>':'')+'<div class="opts">'+(q.o||[]).map((o,j) => {
       let cls = ""; if (graded){ if (j===q.a) cls="right"; else if (a===j) cls="wrong"; } else if (a===j) cls="sel";
       return '<button class="opt '+cls+'" '+(graded?'disabled':'')+' data-act="pick" data-i="'+i+'" data-j="'+j+'"><span class="L">'+"ABCDE"[j]+'</span><span>'+esc(o)+'</span></button>'; }).join("")+'</div>'+
       (graded ? reviewHTML(q, a) : '')+
@@ -1975,10 +1981,14 @@ function reviewHTML(q, a){
   const verdict = open ? 'Soal tanpa pilihan.' : nokey ? 'Kunci tidak bisa dipastikan.' : (a===q.a ? 'Benar.' : 'Jawabanmu '+(a!=null?"ABCDE"[a]:"kosong")+', kunci '+"ABCDE"[q.a]+'.');
   const ks = q.keySrc && KEYSRC[q.keySrc] ? '<span class="chip '+KEYSRC[q.keySrc][0]+'">'+KEYSRC[q.keySrc][1]+'</span>' : '';
   const wr = Object.keys(q.wrong||{});
-  return '<div class="review"><div class="row" style="gap:6px">'+ks+'</div><p><b>'+verdict+'</b> '+esc(q.why||"")+'</p>'+
+  const kam = q.kamus||[];
+  return '<div class="review"><div class="row" style="gap:6px">'+ks+'</div><p><b>'+verdict+'</b>'+(q.dasar?'':' '+esc(q.why||""))+'</p>'+
+    (q.dasar ? '<div class="box dsr"><b class="lab">Mulai dari dasar</b><p style="white-space:pre-line">'+esc(q.dasar)+'</p>'+(kam.length?'<b class="lab" style="margin-top:8px">Kamus istilah</b><dl>'+kam.map(k => '<dt>'+esc(k[0])+'</dt><dd>'+esc(k[1])+'</dd>').join("")+'</dl>':'')+'</div>' : '')+
+    (q.dasar && q.why ? '<p><b>Jadi, kenapa jawabannya '+(nokey||open?'begitu':"ABCDE"[q.a])+'?</b> '+esc(q.why)+'</p>' : '')+
     (wr.length ? '<p><b>Kenapa opsi lain salah:</b></p><ul>'+wr.map(k => '<li><b>'+"ABCDE"[k]+'.</b> '+esc(q.wrong[k])+'</li>').join("")+'</ul>' : '')+
     (q.clue ? '<div class="box key"><b class="lab">Clue yang harus ditangkap</b><p>'+esc(q.clue)+'</p></div>' : '')+
     (q.concept ? '<div class="box clin"><b class="lab">Konsep</b><p>'+esc(q.concept)+'</p></div>' : '')+
+    (q.prinsip ? '<div class="box prin"><b class="lab">Prinsip & tips</b><p style="white-space:pre-line">'+esc(q.prinsip)+'</p></div>' : '')+
     (q.trap ? '<div class="box trap"><b class="lab">Jebakan</b><p>'+esc(q.trap)+'</p></div>' : '')+
     (q.knote || (q.nimgs||[]).length ? '<div class="box kat"><b class="lab">Catatan kating</b>'+(q.knote?'<p style="white-space:pre-line">'+esc(q.knote)+'</p>':'')+(q.nimgs||[]).map(u => '<img class="qimg" loading="lazy" src="'+esc(u)+'" alt="Slide PPT dari catatan kating">').join("")+'</div>' : '')+
   '</div>';
@@ -3962,6 +3972,7 @@ window.addEventListener("hashchange", fromHash);
   setInterval(checkReminder, 30000); setTimeout(checkReminder, 1500);
   initDb();
   fetch("kating-repro.json").then(r => r.ok ? r.json() : null).then(j => { if (Array.isArray(j)) { KAT_REPRO = j; const y = window.scrollY; render(); window.scrollTo({top:y}); } }).catch(() => {});
+  fetch("buatan-repro.json").then(r => r.ok ? r.json() : null).then(j => { if (Array.isArray(j)) { BUATAN_REPRO = j; const y = window.scrollY; render(); window.scrollTo({top:y}); } }).catch(() => {});
 })();
 </script>
 
