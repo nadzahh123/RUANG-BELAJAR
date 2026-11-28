@@ -547,8 +547,8 @@ nav.tabs a.tab-eng[aria-current="page"]{color:#fff;background:var(--pop)}
 .e2-mchips .chip.ok{background:var(--pop-soft);border-color:transparent}
 .e2-mchips .chip.on{background:var(--ink);border-color:var(--ink);color:#fff}
 .e2-mchips .chip.on small{color:#D9D2FF}
-.e2-mapbox{border-radius:16px;overflow:hidden;border:1.5px solid var(--line);max-width:760px;width:100%;justify-self:center}
-.e2-map{display:block;width:100%;height:auto;max-height:70vh;font-family:var(--f-body,inherit)}
+.e2-mapbox{border-radius:16px;overflow:hidden;border:1.5px solid var(--line);max-width:560px;width:100%;justify-self:center}
+.e2-map{display:block;width:100%;height:auto;aspect-ratio:1/1;font-family:var(--f-body,inherit)}
 .e2m-sea{fill:#E4F4FF}
 .e2m-land{fill:#F1EEF7;stroke:#D6D0E4}
 .e2m-route{fill:#EDE6FF;stroke:#B9A8EC}
@@ -587,6 +587,24 @@ nav.tabs a.tab-eng[aria-current="page"]{color:#fff;background:var(--pop)}
 .e2-mcity.cur{border-color:var(--sun);box-shadow:0 0 0 3px var(--sun-soft)}
 .e2-mcity.cur .n{background:var(--sun);color:var(--ink)}
 .e2m-ld{stroke:#9B0F43;opacity:.55}
+.e2-mapbox{position:relative}
+.e2-map{touch-action:none;cursor:grab;user-select:none;-webkit-user-select:none}
+.e2-map:active{cursor:grabbing}
+.e2-mctl{position:absolute;right:8px;top:8px;display:grid;gap:5px}
+.e2-mctl button{width:32px;height:32px;border-radius:10px;border:1.5px solid var(--line);background:rgba(255,255,255,.95);font:inherit;font-size:1rem;font-weight:800;color:var(--ink);cursor:pointer;box-shadow:0 4px 12px rgba(36,27,75,.12);display:grid;place-items:center;padding:0}
+.e2-mctl button:active{transform:scale(.94)}
+.e2-mhint{position:absolute;left:50%;bottom:10px;transform:translateX(-50%);background:rgba(36,27,75,.82);color:#fff;font-size:.74rem;font-weight:600;padding:6px 12px;border-radius:999px;white-space:nowrap;pointer-events:none;transition:opacity .4s;animation:e2hint .6s 6s forwards}
+@keyframes e2hint{to{opacity:0}}
+.e2-mhint.off{opacity:0}
+@media (max-width:420px){.e2-mhint{font-size:.68rem;white-space:normal;width:84%;text-align:center}}
+.e2-mpop{position:absolute;left:10px;right:58px;bottom:10px;max-width:360px;background:#fff;border-radius:16px;box-shadow:0 10px 30px rgba(36,27,75,.25);display:grid;grid-template-columns:64px 1fr;gap:10px;padding:10px 34px 10px 10px;animation:engPop .25s ease-out;border:2px solid var(--line)}
+.e2-mpop.ok{border-color:#F7A8C6}
+.e2-mpop .im{width:64px;height:64px;border-radius:12px;background:var(--soft) center/cover;display:grid;place-items:center;font-size:1.8rem}
+.e2-mpop .im.lock{background:var(--grape-soft)}
+.e2-mpop .tx{display:grid;gap:3px;min-width:0;align-content:start}
+.e2-mpop .tx b{font-size:1rem;line-height:1.2}
+.e2-mpop .tx .small{line-height:1.35}
+.e2-mpop .x{position:absolute;top:6px;right:6px;width:26px;height:26px;border-radius:50%;border:0;background:var(--soft);font:inherit;font-weight:800;color:var(--muted);cursor:pointer;padding:0}
 </style>
 
 <header class="top">
@@ -628,7 +646,7 @@ nav.tabs a.tab-eng[aria-current="page"]{color:#fff;background:var(--pop)}
    ENGLISH · PROGRAM IELTS 60 HARI (v2, Nov 2026)
    Metode: input masif → spaced repetition → output bertahap → IELTS prep
    ============================================================ */
-const E2_START_DEFAULT = "2026-11-28";
+const E2_START_DEFAULT = "2026-12-01";
 const E2_LEN = 56;
 
 /* Riset yang dipakai (ditampilkan di "Cara kerja program") */
@@ -1582,70 +1600,144 @@ function e2Labels(items, fs, taken, vb){
   return out.join("");
 }
 
-function e2Map(){
-  const cur = e2Cur(), Cs = e2Countries(), sel = ui.e2map === undefined ? e2CtryOf(cur).cc : ui.e2map;
-  const SC = Cs.find(C => C.cc === sel), M = E2_MAPD;
-  /* viewBox */
-  let vb;
-  if (!SC) vb = [10, 30, 500, 530];
-  else {
-    const pts = SC.days.map(d => e2XY(E2_PLAN[d-1].place)); let x0 = Math.min(...pts.map(p => p[0])), x1 = Math.max(...pts.map(p => p[0])), y0 = Math.min(...pts.map(p => p[1])), y1 = Math.max(...pts.map(p => p[1]));
-    const cx = (x0+x1)/2, cy = (y0+y1)/2; let w = Math.max(34, (x1-x0)*1.5 + 22), h = Math.max(27, (y1-y0)*1.4 + 18);
-    if (w/h < 1.25) w = h*1.25; else h = w/1.25; vb = [cx-w/2, cy-h/2, w, h];
-  }
-  const k = vb[2]/500, fs = SC ? vb[2]*0.034 : 11.5, r = SC ? vb[2]*0.012 : 3.4;
-  /* status per negara */
+function e2MapTarget(SC){
+  if (!SC) return [5, 25, 540, 540];
+  const pts = SC.days.map(d => e2XY(E2_PLAN[d-1].place)); let x0 = Math.min(...pts.map(p => p[0])), x1 = Math.max(...pts.map(p => p[0])), y0 = Math.min(...pts.map(p => p[1])), y1 = Math.max(...pts.map(p => p[1]));
+  const cx = (x0+x1)/2, cy = (y0+y1)/2; let w = Math.max(34, (x1-x0)*1.5 + 22), h = Math.max(27, (y1-y0)*1.4 + 18);
+  w = h = Math.max(w, h); return [cx-w/2, cy-h/2, w, h];
+}
+/* Isi SVG untuk viewBox tertentu. Mode label: zoom dekat (lebar < 150) = nama kota, jauh = nama negara */
+function e2MapSvg(vb){
+  const cur = e2Cur(), Cs = e2Countries(), M = E2_MAPD, near = vb[2] < 150;
+  const k = vb[2]/500, fs = near ? vb[2]*0.034 : vb[2]*0.023, r = near ? vb[2]*0.012 : vb[2]*0.0068;
   const st = {}; Cs.forEach(C => { const n = C.days.filter(e2DayDone).length, id = (E2_CTRY[C.cc]||[])[1]; if (!id) return; const o = st[id] || (st[id] = {n:0, t:0}); o.n += n; o.t += C.days.length; });
-  let s = '<svg class="e2-map" viewBox="'+vb.map(v => v.toFixed(1)).join(" ")+'" role="img" aria-label="Peta perjalanan keliling Eropa">'+
-    '<rect x="-50" y="-50" width="'+(M.W+100)+'" height="'+(M.H+100)+'" class="e2m-sea"/>'+
-    '<path d="'+M.o+'" class="e2m-land" stroke-width="'+(0.5*k+0.15).toFixed(2)+'"/>';
+  let s = '<rect x="-400" y="-400" width="'+(M.W+800)+'" height="'+(M.H+800)+'" class="e2m-sea"/>'+
+    '<path d="'+M.o+'" class="e2m-land" stroke-width="'+(0.5*k+0.02).toFixed(3)+'"/>';
   for (const id in M.c) { const o = st[id] || {n:0, t:1}; const cls = o.n >= o.t ? "e2m-done" : o.n > 0 ? "e2m-half" : "e2m-route";
-    s += '<path d="'+M.c[id]+'" class="'+cls+'" stroke-width="'+(0.6*k+0.15).toFixed(2)+'"/>'; }
-  /* garis rute */
+    s += '<path d="'+M.c[id]+'" class="'+cls+'" stroke-width="'+(0.6*k+0.02).toFixed(3)+'"/>'; }
   const all = E2_PLAN.map(D => e2XY(D.place)), lastDone = (() => { let x = 0; for (let d = 1; d <= E2_LEN; d++) if (e2DayDone(d)) x = d; return x; })();
-  const line = a => a.map((p, i) => (i?'L':'M')+p[0].toFixed(1)+','+p[1].toFixed(1)).join("");
-  s += '<path d="'+line(all)+'" class="e2m-path" stroke-width="'+(0.9*k+0.1).toFixed(2)+'" stroke-dasharray="'+(3*k).toFixed(2)+' '+(3*k).toFixed(2)+'"/>';
-  if (lastDone > 1) s += '<path d="'+line(all.slice(0, lastDone))+'" class="e2m-path on" stroke-width="'+(1.4*k+0.15).toFixed(2)+'"/>';
-  /* titik kota */
+  const line = a => a.map((p, i) => (i?'L':'M')+p[0].toFixed(2)+','+p[1].toFixed(2)).join("");
+  s += '<path d="'+line(all)+'" class="e2m-path" stroke-width="'+(0.9*k).toFixed(3)+'" stroke-dasharray="'+(3*k).toFixed(3)+' '+(3*k).toFixed(3)+'"/>';
+  if (lastDone > 1) s += '<path d="'+line(all.slice(0, lastDone))+'" class="e2m-path on" stroke-width="'+(1.4*k).toFixed(3)+'"/>';
+  const inV = (x, y) => x >= vb[0] && x <= vb[0]+vb[2] && y >= vb[1] && y <= vb[1]+vb[3];
   const dots = [], items = [], taken = [];
-  E2_PLAN.forEach(D => { const [x, y] = all[D.d-1], ok = e2DayDone(D.d), isCur = D.d === cur && !ok, inSel = SC && SC.days.includes(D.d), P = e2P(D.place);
+  E2_PLAN.forEach(D => { const [x, y] = all[D.d-1], ok = e2DayDone(D.d), isCur = D.d === cur && !ok;
     const rr = r * (ok ? 1.15 : isCur ? 1.25 : 0.8);
-    dots.push('<g class="e2m-pt'+(ok?' ok':isCur?' cur':'')+'" data-act="'+(ok?'e2reward':'e2day')+'" data-d="'+D.d+'"><title>Day '+D.d+' · '+esc(ok ? P.nm+', '+P.cc : (isCur ? 'Tujuan hari ini' : 'Belum dikunjungi'))+'</title>'+
-      (isCur ? '<circle cx="'+x.toFixed(1)+'" cy="'+y.toFixed(1)+'" r="'+(rr*2).toFixed(2)+'" class="e2m-pulse"><animate attributeName="r" values="'+rr.toFixed(2)+';'+(rr*2.6).toFixed(2)+'" dur="1.6s" repeatCount="indefinite"/><animate attributeName="opacity" values=".7;0" dur="1.6s" repeatCount="indefinite"/></circle>' : '')+
-      '<circle cx="'+x.toFixed(1)+'" cy="'+y.toFixed(1)+'" r="'+(rr*2.2).toFixed(2)+'" fill="transparent"/>'+
-      '<circle cx="'+x.toFixed(1)+'" cy="'+y.toFixed(1)+'" r="'+rr.toFixed(2)+'" class="e2m-dot" stroke-width="'+(rr*0.35).toFixed(2)+'"/></g>');
+    dots.push('<g class="e2m-pt'+(ok?' ok':isCur?' cur':'')+'" data-act="e2mpt" data-d="'+D.d+'">'+
+      (isCur ? '<circle cx="'+x.toFixed(2)+'" cy="'+y.toFixed(2)+'" r="'+(rr*2).toFixed(3)+'" class="e2m-pulse"><animate attributeName="r" values="'+rr.toFixed(3)+';'+(rr*2.6).toFixed(3)+'" dur="1.6s" repeatCount="indefinite"/><animate attributeName="opacity" values=".7;0" dur="1.6s" repeatCount="indefinite"/></circle>' : '')+
+      '<circle cx="'+x.toFixed(2)+'" cy="'+y.toFixed(2)+'" r="'+(rr*2.6).toFixed(3)+'" fill="transparent"/>'+
+      '<circle cx="'+x.toFixed(2)+'" cy="'+y.toFixed(2)+'" r="'+rr.toFixed(3)+'" class="e2m-dot" stroke-width="'+(rr*0.35).toFixed(3)+'"/></g>');
     taken.push({x:x-rr, y:y-rr, w:rr*2, h:rr*2});
-    if (SC && inSel) items.push({x, y, r:rr, t: ok ? E2_GEO[D.place][2] : isCur ? "Day "+D.d+" · hari ini" : "Day "+D.d, cls: ok ? "e2m-lb ok" : isCur ? "e2m-lb cur" : "e2m-lb", must: ok || isCur, ord: ok ? 0 : isCur ? 1 : 2});
+    if (near && inV(x, y) && (ok || isCur || vb[2] < 80)) items.push({x, y, r:rr, t: ok ? E2_GEO[D.place][2] : isCur ? "Day "+D.d+" · hari ini" : "Day "+D.d, cls: ok ? "e2m-lb ok" : isCur ? "e2m-lb cur" : "e2m-lb", must: ok || isCur, ord: ok ? 0 : isCur ? 1 : 2});
   });
   let labels = "";
-  if (SC) { items.sort((a, b) => a.ord - b.ord || a.y - b.y); labels = e2Labels(items, fs, taken, vb); }
-  else { /* label negara di peta Eropa */
+  if (near) { items.sort((a, b) => a.ord - b.ord || a.y - b.y); labels = e2Labels(items, fs, taken, vb); }
+  else {
     const cl = Cs.map(C => { const pts = C.days.map(d => all[d-1]), n = C.days.filter(e2DayDone).length; const x = pts.reduce((a, p) => a + p[0], 0)/pts.length, y = pts.reduce((a, p) => a + p[1], 0)/pts.length;
-      return {x, y, r: r*1.6, t: C.cc+" "+n+"/"+C.days.length+(n === C.days.length ? " ✓" : ""), cls: "e2m-lb ctry"+(n === C.days.length ? " ok" : n ? " half" : ""), must: true}; });
+      return {x, y, r: r*1.6, t: C.cc+" "+n+"/"+C.days.length+(n === C.days.length ? " ✓" : ""), cls: "e2m-lb ctry"+(n === C.days.length ? " ok" : n ? " half" : ""), must: inV(x, y)}; }).filter(c => inV(c.x, c.y));
     labels = e2Labels(cl, fs, taken, vb);
   }
-  s += dots.join("") + '<g class="e2m-lbs">'+labels+'</g></svg>';
-  /* chip negara + daftar kota */
+  return s + dots.join("") + '<g class="e2m-lbs">'+labels+'</g>';
+}
+function e2Map(){
+  const cur = e2Cur(), Cs = e2Countries(), sel = ui.e2map === undefined ? e2CtryOf(cur).cc : ui.e2map;
+  const SC = Cs.find(C => C.cc === sel);
+  const vb = ui.e2mvb || e2MapTarget(SC);
+  const svg = '<svg class="e2-map" id="e2Map" viewBox="'+vb.map(v => v.toFixed(2)).join(" ")+'" role="img" aria-label="Peta perjalanan keliling Eropa. Cubit atau scroll untuk zoom, geser untuk pindah.">'+e2MapSvg(vb)+'</svg>';
   const chips = '<div class="e2-mchips"><button class="chip'+(!SC?' on':'')+'" data-act="e2map" data-c="">🌍 Seluruh rute</button>'+Cs.map(C => { const n = C.days.filter(e2DayDone).length, done = n === C.days.length;
     return '<button class="chip'+(SC && SC.cc === C.cc ? ' on' : '')+(done ? ' ok' : '')+'" data-act="e2map" data-c="'+esc(C.cc)+'">'+e2Flag(C.cc)+' '+esc(C.cc)+' <small>'+(done ? '✓' : n+'/'+C.days.length)+'</small></button>'; }).join("")+'</div>';
   const nC = Cs.filter(e2CtryDone).length, nK = E2_PLAN.filter(D => e2DayDone(D.d)).length;
   let list = '';
   if (SC) list = '<div class="e2-mlist">'+SC.days.map(d => { const ok = e2DayDone(d), P = e2P(E2_PLAN[d-1].place);
-    return '<button class="e2-mcity'+(ok?' ok':d===cur?' cur':'')+'" data-act="'+(ok?'e2reward':'e2day')+'" data-d="'+d+'"><span class="n">'+(ok?'✓':d)+'</span><span><b>'+(ok ? esc(E2_GEO[E2_PLAN[d-1].place][2]) : 'Day '+d+(d===cur?' · hari ini':''))+'</b><small>'+(ok ? esc(P.nm)+' · '+esc(P.cc) : 'Kota rahasia, terbuka setelah Day '+d+' selesai')+'</small></span></button>'; }).join("")+'</div>';
+    return '<button class="e2-mcity'+(ok?' ok':d===cur?' cur':'')+'" data-act="e2mfly" data-d="'+d+'"><span class="n">'+(ok?'✓':d)+'</span><span><b>'+(ok ? esc(E2_GEO[E2_PLAN[d-1].place][2]) : 'Day '+d+(d===cur?' · hari ini':''))+'</b><small>'+(ok ? esc(P.nm)+' · '+esc(P.cc) : 'Kota rahasia, terbuka setelah Day '+d+' selesai')+'</small></span></button>'; }).join("")+'</div>';
   const C0 = SC && e2CtryDone(SC), nextC = SC ? Cs[Cs.indexOf(SC)+1] : null;
   return '<div class="card stack e2-mapcard"><div class="row" style="justify-content:space-between;align-items:flex-end"><div><span class="eyebrow">Peta perjalanan</span><h3>'+(SC ? e2Flag(SC.cc)+' '+esc(SC.cc)+' · '+SC.days.filter(e2DayDone).length+'/'+SC.days.length+' kota' : 'Keliling Eropa · '+nK+'/56 kota')+'</h3></div><span class="small muted">'+nC+'/'+Cs.length+' negara selesai</span></div>'+
-    chips+'<div class="e2-mapbox">'+s+'</div>'+
+    chips+
+    '<div class="e2-mapbox" id="e2MapBox">'+svg+
+      '<div class="e2-mctl"><button data-act="e2mzoom" data-v="1" aria-label="Perbesar">+</button><button data-act="e2mzoom" data-v="-1" aria-label="Perkecil">−</button><button data-act="e2mhere" aria-label="Ke lokasi hari ini" title="Ke lokasi hari ini">📍</button><button data-act="e2mall" aria-label="Lihat seluruh Eropa" title="Seluruh rute">🌍</button></div>'+
+      '<div class="e2-mhint" id="e2MHint">Cubit / scroll untuk zoom · geser untuk pindah · ketuk titik kota</div>'+
+    '</div>'+
     '<div class="e2-mleg small"><span><i class="ok"></i>sudah dikunjungi</span><span><i class="cur"></i>tujuan hari ini</span><span><i></i>belum</span><span><i class="sq done"></i>negara selesai</span><span><i class="sq half"></i>sedang dijelajahi</span></div>'+
     (SC ? (C0 ? '<p class="small e2-mdone">🎉 '+esc(SC.cc)+' selesai! Semua '+SC.days.length+' kota sudah kamu kunjungi.'+(nextC ? ' Berikutnya: '+e2Flag(nextC.cc)+' '+esc(nextC.cc)+'.' : '')+'</p>' : '') + list
-        : '<p class="small muted" style="margin:0">Rute jalan urut per negara: selesaikan semua kota di satu negara, baru pindah ke negara tetangga. Ketuk nama negara di atas untuk zoom dan lihat nama kotanya. Ketuk titik pink untuk membuka kartu kenangan kota itu.</p>')+
+        : '<p class="small muted" style="margin:0">Rute jalan urut per negara: selesaikan semua kota di satu negara, baru pindah ke negara tetangga. Zoom ke dekat untuk melihat nama kota, ketuk titik kota untuk melihat kartunya.</p>')+
   '</div>';
 }
+
+/* ---------- interaksi peta: zoom, geser, terbang, kartu kota ---------- */
+const E2M = {ptr:new Map(), moved:0, anim:0, redraw:0, start:null};
+function e2MClamp(vb){
+  const M = E2_MAPD, ar = vb[3]/vb[2]; let w = Math.min(560, Math.max(14, vb[2])), h = w*ar;
+  let cx = vb[0]+vb[2]/2, cy = vb[1]+vb[3]/2; cx = Math.min(M.W, Math.max(0, cx)); cy = Math.min(M.H, Math.max(0, cy));
+  return [cx-w/2, cy-h/2, w, h];
+}
+function e2MSet(vb, full){
+  const svg = document.getElementById("e2Map"); if (!svg) return; vb = e2MClamp(vb); ui.e2mvb = vb;
+  svg.setAttribute("viewBox", vb.map(v => v.toFixed(2)).join(" "));
+  clearTimeout(E2M.redraw); if (full) svg.innerHTML = e2MapSvg(vb); else E2M.redraw = setTimeout(() => { const s2 = document.getElementById("e2Map"); if (s2) s2.innerHTML = e2MapSvg(ui.e2mvb); }, 140);
+}
+function e2MGet(){ const svg = document.getElementById("e2Map"); return svg ? svg.getAttribute("viewBox").split(" ").map(Number) : null; }
+function e2MFly(to, ms){
+  const from = e2MGet(); if (!from) return; cancelAnimationFrame(E2M.anim); e2MPopX();
+  const red = window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches; ms = red ? 0 : (ms || 750);
+  const t0 = performance.now(), ease = t => t < .5 ? 4*t*t*t : 1 - Math.pow(-2*t+2, 3)/2;
+  /* gaya "terbang": zoom keluar sedikit di tengah perjalanan */
+  const dist = Math.hypot((from[0]+from[2]/2)-(to[0]+to[2]/2), (from[1]+from[3]/2)-(to[1]+to[3]/2)), bump = Math.min(1.8, 1 + dist/Math.max(from[2], to[2]));
+  const step = now => { const t = ms ? Math.min(1, (now - t0)/ms) : 1, e = ease(t), z = 1 + (bump-1)*Math.sin(Math.PI*t);
+    const w = (from[2] + (to[2]-from[2])*e)*z, h = w*(to[3]/to[2]), cx = from[0]+from[2]/2 + ((to[0]+to[2]/2)-(from[0]+from[2]/2))*e, cy = from[1]+from[3]/2 + ((to[1]+to[3]/2)-(from[1]+from[3]/2))*e;
+    e2MSet([cx-w/2, cy-h/2, w, h], t >= 1); if (t < 1) E2M.anim = requestAnimationFrame(step); };
+  E2M.anim = requestAnimationFrame(step);
+}
+function e2MZoomAt(f, px, py){ /* f>1 = perbesar; px,py = titik layar dalam svg (0..1) */
+  const vb = e2MGet(); if (!vb) return; const w = vb[2]/f, h = vb[3]/f, ax = vb[0]+vb[2]*px, ay = vb[1]+vb[3]*py;
+  e2MSet([ax - w*px, ay - h*py, w, h]);
+}
+function e2MCity(d, zoom){ const [x, y] = e2XY(E2_PLAN[d-1].place), w = zoom || 40, h = w; return [x-w/2, y-h/2, w, h]; }
+function e2MPopX(){ const p = document.getElementById("e2MPop"); if (p) p.remove(); }
+function e2MPop(d){
+  e2MPopX(); const box = document.getElementById("e2MapBox"); if (!box) return;
+  const D = E2_PLAN[d-1], ok = e2DayDone(d), cur = d === e2Cur(), P = e2P(D.place), G = E2_GEO[D.place];
+  const el = document.createElement("div"); el.id = "e2MPop"; el.className = "e2-mpop"+(ok?" ok":"");
+  el.innerHTML = ok
+    ? '<div class="im" style="background-image:url(\''+e2Img(D.place, true)+'\')"></div><div class="tx"><span class="small muted">Day '+d+' · '+e2Flag(P.cc)+' '+esc(P.cc)+'</span><b>'+esc(G[2])+'</b><span class="small">'+esc(P.nm)+'</span><div><button class="btn tiny solid" data-act="e2reward" data-d="'+d+'">Buka kenangan</button></div></div><button class="x" data-act="e2mpx" aria-label="Tutup">✕</button>'
+    : '<div class="im lock">'+(cur ? '✈' : '🔒')+'</div><div class="tx"><span class="small muted">Day '+d+' · '+e2Flag(P.cc)+' '+esc(P.cc)+'</span><b>'+(cur ? 'Tujuan hari ini!' : 'Kota rahasia')+'</b><span class="small">'+(cur ? 'Selesaikan semua blok hari ini untuk membuka kota ini.' : 'Terbuka setelah Day '+d+' selesai ('+fmt(e2Date(d))+').')+'</span><div><button class="btn tiny solid" data-act="e2day" data-d="'+d+'">Lihat tugas Day '+d+'</button></div></div><button class="x" data-act="e2mpx" aria-label="Tutup">✕</button>';
+  box.appendChild(el);
+}
+document.addEventListener("pointerdown", ev => {
+  const svg = ev.target.closest && ev.target.closest("#e2Map"); if (!svg) return;
+  cancelAnimationFrame(E2M.anim); E2M.ptr.set(ev.pointerId, {x:ev.clientX, y:ev.clientY}); E2M.moved = 0;
+  E2M.start = {vb:e2MGet(), pts:new Map(E2M.ptr), rect:svg.getBoundingClientRect()};
+  const h = document.getElementById("e2MHint"); if (h) h.classList.add("off");
+});
+document.addEventListener("pointermove", ev => {
+  if (!E2M.ptr.has(ev.pointerId) || !E2M.start) return; E2M.ptr.set(ev.pointerId, {x:ev.clientX, y:ev.clientY});
+  const S0 = E2M.start, R = S0.rect, vb = S0.vb, ids = [...E2M.ptr.keys()];
+  if (ids.length === 1) {
+    const a = E2M.ptr.get(ids[0]), a0 = S0.pts.get(ids[0]); if (!a0) return; const dx = a.x - a0.x, dy = a.y - a0.y; E2M.moved = Math.max(E2M.moved, Math.hypot(dx, dy));
+    if (E2M.moved < 4) return; ev.preventDefault();
+    e2MSet([vb[0] - dx*vb[2]/R.width, vb[1] - dy*vb[3]/R.height, vb[2], vb[3]]);
+  } else if (ids.length >= 2) {
+    const [p, q] = [E2M.ptr.get(ids[0]), E2M.ptr.get(ids[1])], [p0, q0] = [S0.pts.get(ids[0]), S0.pts.get(ids[1])]; if (!p0 || !q0) { E2M.start = {vb:e2MGet(), pts:new Map(E2M.ptr), rect:R}; return; }
+    E2M.moved = 99; ev.preventDefault();
+    const f = Math.hypot(p.x-q.x, p.y-q.y) / Math.max(1, Math.hypot(p0.x-q0.x, p0.y-q0.y));
+    const m0x = ((p0.x+q0.x)/2 - R.left)/R.width, m0y = ((p0.y+q0.y)/2 - R.top)/R.height, mx = ((p.x+q.x)/2 - R.left)/R.width, my = ((p.y+q.y)/2 - R.top)/R.height;
+    const ax = vb[0] + vb[2]*m0x, ay = vb[1] + vb[3]*m0y, w = vb[2]/f, h = vb[3]/f;
+    e2MSet([ax - w*mx, ay - h*my, w, h]);
+  }
+}, {passive:false});
+const e2MUp = ev => { if (!E2M.ptr.has(ev.pointerId)) return; E2M.ptr.delete(ev.pointerId); E2M.start = E2M.ptr.size ? {vb:e2MGet(), pts:new Map(E2M.ptr), rect:E2M.start.rect} : null; };
+document.addEventListener("pointerup", e2MUp); document.addEventListener("pointercancel", e2MUp);
+document.addEventListener("click", ev => { if (E2M.moved > 6 && ev.target.closest && ev.target.closest("#e2Map")) { ev.stopPropagation(); ev.preventDefault(); E2M.moved = 0; } }, true);
+document.addEventListener("wheel", ev => {
+  const svg = ev.target.closest && ev.target.closest("#e2Map"); if (!svg) return; ev.preventDefault(); cancelAnimationFrame(E2M.anim);
+  const R = svg.getBoundingClientRect(); e2MZoomAt(Math.exp(-ev.deltaY*0.0022), (ev.clientX-R.left)/R.width, (ev.clientY-R.top)/R.height);
+}, {passive:false});
+document.addEventListener("dblclick", ev => { const svg = ev.target.closest && ev.target.closest("#e2Map"); if (!svg) return; ev.preventDefault(); const R = svg.getBoundingClientRect(), vb = e2MGet(), px = (ev.clientX-R.left)/R.width, py = (ev.clientY-R.top)/R.height, w = vb[2]/2.2, h = vb[3]/2.2, ax = vb[0]+vb[2]*px, ay = vb[1]+vb[3]*py; e2MFly(e2MClamp([ax-w/2, ay-h/2, w, h]), 450); });
 
 /* ================= PROGRAM 60 HARI · LOGIKA ================= */
 const E2_CREDIT = {};  /* diisi otomatis oleh build (kredit foto kota baru) */
 function E2(){ if (!S.e2) S.e2 = {}; const e = S.e2;
   ["done","steps","notes","rd","lmin","cards","newDone","rev","busy","sc","wr","sp","refl","seen","misc"].forEach(k => { if (!e[k] || typeof e[k] !== "object") e[k] = {}; });
-  if (!e.start) e.start = E2_START_DEFAULT; if (e.newPerDay == null) e.newPerDay = 10; if (e.awl == null) e.awl = true; if (e.awlIdx == null) e.awlIdx = 0; if (!e.time) e.time = (S.eng && S.eng.time) || "19:30";
+  if (!e.start) e.start = E2_START_DEFAULT; if (!e.misc.s1201) { if (e.start === "2026-11-28" && !Object.keys(e.done).length) e.start = "2026-12-01"; e.misc.s1201 = 1; } if (e.newPerDay == null) e.newPerDay = 10; if (e.awl == null) e.awl = true; if (e.awlIdx == null) e.awlIdx = 0; if (!e.time) e.time = (S.eng && S.eng.time) || "19:30";
   return e; }
 function e2DayNo(t){ return diffDays(E2().start, t || todayISO()) + 1; }
 function e2Cur(){ return Math.min(E2_LEN, Math.max(1, e2DayNo())); }
@@ -2172,7 +2264,13 @@ document.addEventListener("click", ev => {
       ENG_SAMPLE(e2Prompt(kind, id, k), {onText:({text}) => { out.textContent = text; }, cache:false}).then(r => { e.notes["ai-"+k] = r.text; save(); el.disabled = false; })
         .catch(err => { el.disabled = false; out.textContent = err && err.code === "not_granted" ? "Izin ke Claude gak diberikan. Pakai 'Salin prompt'." : "Gagal menilai. Coba lagi nanti atau pakai 'Salin prompt'."; }); },
     e2reward(){ e2Reward(+el.dataset.d); },
-    e2map(){ ui.e2map = el.dataset.c; render(); window.scrollTo({top:y}); },
+    e2map(){ const from = e2MGet(); ui.e2map = el.dataset.c; const SC = e2Countries().find(C => C.cc === el.dataset.c); ui.e2mvb = from; render(); window.scrollTo({top:y}); e2MFly(e2MapTarget(SC)); },
+    e2mpt(){ const d = +el.dataset.d, vb = e2MGet(); e2MPop(d); if (vb && vb[2] > 150) e2MFly(e2MCity(d, 60), 600), setTimeout(() => e2MPop(d), 620); },
+    e2mpx(){ e2MPopX(); },
+    e2mzoom(){ cancelAnimationFrame(E2M.anim); const vb = e2MGet(), f = el.dataset.v === "1" ? 1.8 : 1/1.8, w = vb[2]/f, h = vb[3]/f, cx = vb[0]+vb[2]/2, cy = vb[1]+vb[3]/2; e2MFly(e2MClamp([cx-w/2, cy-h/2, w, h]), 350); },
+    e2mhere(){ e2MFly(e2MCity(e2Cur(), 40)); setTimeout(() => e2MPop(e2Cur()), 780); },
+    e2mall(){ e2MFly(e2MapTarget(null)); },
+    e2mfly(){ const d = +el.dataset.d; document.getElementById("e2MapBox").scrollIntoView({block:"center", behavior:"smooth"}); e2MFly(e2MCity(d, 30)); setTimeout(() => e2MPop(d), 780); },
     e2today(){ e.start = todayISO(); ui.e2day = null; save(); render(); toast("Day 1 = hari ini ("+fmt(e.start)+")"); },
     e2ics(){ engDownload("Program-IELTS-2-Bulan-Nadia.ics", e2ICS(), "text/calendar"); }
   };
