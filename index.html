@@ -3594,7 +3594,9 @@ function speakBtn(text){ return '<button class="speak" data-act="speak" data-tex
 /* ---------- RANGKUMAN ---------- */
 function subify(h){ return String(h||"").replace(/<p><b>(\d+(?:\.\d+)+\.?\s[^<]*)<\/b><\/p>/g, '<p class="sub">$1</p>'); }
 function downloadsCard(){
-  if (S.activeBlock === "repro") return dlCard("Rangkuman per KUL (PDF)", "Satu PDF per KUL. Rangkuman gabungan + drill soal kating menyusul di akhir blok.", [
+  if (S.activeBlock === "repro") return dlCard("Drill soal Repro (PDF)", "Soal kating + soal latihan diacak total. Kunci dan pembahasan di bagian belakang.", [
+    ["Drill Campur Acak", "589 soal (kating UAB 2019–2023 + HOTS), 53 bergambar, tanpa duplikat", "Drill-Repro-Campur-Acak", "7,7 MB", ""]
+  ]) + dlCard("Rangkuman per KUL (PDF)", "Satu PDF per KUL. Rangkuman gabungan menyusul di akhir blok.", [
     ["Rangkuman KUL 1", "ANC (WHO 2016 + Buku KIA 2024) dan Infeksi pada Kehamilan", "Rangkuman-Repro-KUL-1", "4,2 MB", ""],
     ["Rangkuman KUL 2", "Perdarahan Kehamilan Muda", "Rangkuman-Repro-KUL-2", "2,0 MB", ""],
     ["Rangkuman KUL 3", "Perdarahan Kehamilan Lanjut dan Syok", "Rangkuman-Repro-KUL-3", "1,6 MB", ""],
