@@ -3128,7 +3128,8 @@ function allSummaries(){ return SUMMARIES_BUILTIN.concat(extra.summaries); }
 /* soal kating UAB Repro per KUL: file kating-repro.json */
 let KAT_REPRO = [];
 let BUATAN_REPRO = [];
-function allQuizzes(){ return QUIZ_BUILTIN.concat(KAT_REPRO, BUATAN_REPRO, extra.quizzes); }
+let HOTS_REPRO = [];
+function allQuizzes(){ return QUIZ_BUILTIN.concat(KAT_REPRO, HOTS_REPRO, BUATAN_REPRO, extra.quizzes); }
 /* tiap KUL/rangkuman/latsol milik satu blok; yang tanpa KUL = materi lama Blok Uro */
 function blockOfLid(lid){ const l = lecById(lid); if (l) return l.block; const d = LECTURES_DEFAULT.find(x => x.id === lid); return d ? d.block : (/^r\d/.test(lid||"") ? "repro" : "uro"); }
 function inBlock(x){ return blockOfLid(x.lecture) === S.activeBlock; }
@@ -3911,7 +3912,8 @@ function speakBtn(text){ return '<button class="speak" data-act="speak" data-tex
 function subify(h){ return String(h||"").replace(/<p><b>(\d+(?:\.\d+)+\.?\s[^<]*)<\/b><\/p>/g, '<p class="sub">$1</p>'); }
 function downloadsCard(){
   if (S.activeBlock === "repro") return dlCard("Drill soal Repro (PDF)", "Soal kating + soal latihan diacak total. Kunci dan pembahasan di bagian belakang.", [
-    ["Drill Campur Acak", "589 soal (kating UAB 2019–2023 + HOTS), 53 bergambar, tanpa duplikat", "Drill-Repro-Campur-Acak", "8,1 MB", ""]
+    ["Drill Campur Acak", "589 soal (kating UAB 2019–2023 + HOTS), 53 bergambar, tanpa duplikat", "Drill-Repro-Campur-Acak", "8,1 MB", ""],
+    ["Soal HOTS Baru", "50 soal vignette HOTS (KUL 1, 2, 3, 4, 5), 13 bergambar, diacak total", "Soal-HOTS-Repro-Campur-Acak", "1,5 MB", ""]
   ]) + dlCard("Rangkuman per KUL (PDF)", "Satu PDF per KUL. Rangkuman gabungan menyusul di akhir blok.", [
     ["Rangkuman KUL 1", "ANC (WHO 2016 + Buku KIA 2024) dan Infeksi pada Kehamilan", "Rangkuman-Repro-KUL-1", "4,2 MB", ""],
     ["Rangkuman KUL 2", "Perdarahan Kehamilan Muda", "Rangkuman-Repro-KUL-2", "2,0 MB", ""],
@@ -6129,6 +6131,7 @@ window.addEventListener("hashchange", fromHash);
   setInterval(checkReminder, 30000); setTimeout(checkReminder, 1500);
   initDb();
   fetch("kating-repro.json").then(r => r.ok ? r.json() : null).then(j => { if (Array.isArray(j)) { KAT_REPRO = j; const y = window.scrollY; render(); window.scrollTo({top:y}); } }).catch(() => {});
+  fetch("hots-repro.json").then(r => r.ok ? r.json() : null).then(j => { if (Array.isArray(j)) { HOTS_REPRO = j; const y = window.scrollY; render(); window.scrollTo({top:y}); } }).catch(() => {});
   fetch("buatan-repro.json").then(r => r.ok ? r.json() : null).then(j => { if (Array.isArray(j)) { BUATAN_REPRO = j; const y = window.scrollY; render(); window.scrollTo({top:y}); } }).catch(() => {});
 })();
 </script>
